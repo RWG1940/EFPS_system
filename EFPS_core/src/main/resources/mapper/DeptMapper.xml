@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.DeptMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.Dept">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="dId" column="d_id" jdbcType="INTEGER"/>
+            <result property="dName" column="d_name" jdbcType="VARCHAR"/>
+            <result property="dAvatarpath" column="d_avatarpath" jdbcType="VARCHAR"/>
+            <result property="dCreatetime" column="d_createtime" jdbcType="TIMESTAMP"/>
+            <result property="dUpdatetime" column="d_updatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,d_id,d_name,
+        d_avatarpath,d_createtime,d_updatetime
+    </sql>
+</mapper>

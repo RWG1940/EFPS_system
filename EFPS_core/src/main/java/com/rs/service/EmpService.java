@@ -1,0 +1,24 @@
+package com.rs.service;
+
+import com.rs.domain.Emp;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
+
+/**
+* @author RWG
+* @description 针对表【emp】的数据库操作Service
+* @createDate 2024-07-26 17:17:57
+*/
+public interface EmpService extends IService<Emp> {
+
+    List<Emp> getAllEmps();
+
+    Emp getEmpById(Integer id);
+
+    int createEmp(Emp emp);
+
+    int updateEmp(Emp emp);
+
+    int deleteEmp(Integer id);
+}

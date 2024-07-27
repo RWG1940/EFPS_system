@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.EmpMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.Emp">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="eId" column="e_id" jdbcType="VARCHAR"/>
+            <result property="eUsername" column="e_username" jdbcType="VARCHAR"/>
+            <result property="ePassword" column="e_password" jdbcType="VARCHAR"/>
+            <result property="eName" column="e_name" jdbcType="VARCHAR"/>
+            <result property="eGender" column="e_gender" jdbcType="INTEGER"/>
+            <result property="eAge" column="e_age" jdbcType="INTEGER"/>
+            <result property="ePhone" column="e_phone" jdbcType="VARCHAR"/>
+            <result property="eDeptid" column="e_deptid" jdbcType="INTEGER"/>
+            <result property="eRole" column="e_role" jdbcType="VARCHAR"/>
+            <result property="eAvatarpath" column="e_avatarpath" jdbcType="VARCHAR"/>
+            <result property="eCreatetime" column="e_createtime" jdbcType="TIMESTAMP"/>
+            <result property="eUpdatetime" column="e_updatetime" jdbcType="TIMESTAMP"/>
+            <result property="eIsenabled" column="e_isEnabled" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,e_id,e_username,
+        e_password,e_name,e_gender,
+        e_age,e_phone,e_deptid,
+        e_role,e_avatarpath,e_createtime,
+        e_updatetime,e_isEnabled
+    </sql>
+</mapper>
