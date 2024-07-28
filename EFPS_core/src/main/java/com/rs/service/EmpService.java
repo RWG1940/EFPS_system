@@ -14,11 +14,11 @@ public interface EmpService extends IService<Emp> {
 
     List<Emp> getAllEmps();
 
-    Emp getEmpById(Integer id);
-
     int createEmp(Emp emp);
 
     int updateEmp(Emp emp);
 
     int deleteEmp(Integer id);
+
+    Emp getEmp(Emp emp);
 }

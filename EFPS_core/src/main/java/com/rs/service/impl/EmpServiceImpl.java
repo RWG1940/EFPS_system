@@ -26,11 +26,6 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     }
 
     @Override
-    public Emp getEmpById(Integer id) {
-        return empMapper.getEmpById(id);
-    }
-
-    @Override
     public int createEmp(Emp emp) {
         return empMapper.createEmp(emp);
     }
@@ -43,6 +38,11 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     @Override
     public int deleteEmp(Integer id) {
         return empMapper.deleteEmp(id);
+    }
+
+    @Override
+    public Emp getEmp(Emp emp) {
+        return empMapper.getEmp(emp);
     }
 }
 

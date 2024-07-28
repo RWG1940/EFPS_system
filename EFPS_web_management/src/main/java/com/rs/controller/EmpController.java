@@ -1,6 +1,7 @@
 package com.rs.controller;
 
 import com.rs.domain.Emp;
+import com.rs.domain.Result;
 import com.rs.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,18 @@ public class EmpController {
 
     // 获取所有员工
     @GetMapping
-    public List<Emp> getAllEmps() {
+    public Result getAllEmps() {
         log.info("Fetching all employees");
-        return empService.getAllEmps();
+        List<Emp> emps = empService.getAllEmps();
+        return Result.success(emps);
     }
 
-    // 获取指定 ID 的员工
-    @GetMapping("/{id}")
-    public Emp getEmpById(@PathVariable Integer id) {
-        log.info("Fetching employee with ID: {}", id);
-        return empService.getEmpById(id);
+    // 获取指定字段的员工
+    @GetMapping("/emp")
+    public Result getEmpById(@RequestBody Emp emp) {
+        log.info("Fetching employee with : {}", emp);
+        Emp e = empService.getEmp(emp);
+        return Result.success(e);
     }
 
     // 创建新员工

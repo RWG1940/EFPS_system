@@ -19,13 +19,10 @@ public interface EmpMapper extends BaseMapper<Emp> {
     @Select("SELECT * FROM emp")
     List<Emp> getAllEmps();
 
-    // 获取指定 ID 的员工
-    @Select("SELECT * FROM emp WHERE id = #{id}")
-    Emp getEmpById(@Param("id") Integer id);
+    // 获取指定字段的员工
+    Emp getEmp(Emp emp);
 
     // 创建新员工
-    @Insert("INSERT INTO emp (eId, eUsername, ePassword, eName, eGender, eAge, ePhone, eDeptid, eRole, eAvatarpath, eCreatetime, eUpdatetime, eIsenabled) VALUES (#{eId}, #{eUsername}, #{ePassword}, #{eName}, #{eGender}, #{eAge}, #{ePhone}, #{eDeptid}, #{eRole}, #{eAvatarpath}, #{eCreatetime}, #{eUpdatetime}, #{eIsenabled})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     int createEmp(Emp emp);
 
     // 更新员工信息
@@ -35,6 +32,7 @@ public interface EmpMapper extends BaseMapper<Emp> {
     // 删除指定 ID 的员工
     @Delete("DELETE FROM emp WHERE id = #{id}")
     int deleteEmp(@Param("id") Integer id);
+
 }
 
 
