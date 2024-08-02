@@ -3,9 +3,13 @@ package com.rs.controller;
 import com.rs.domain.Emp;
 import com.rs.domain.Result;
 import com.rs.service.EmpService;
+import com.rs.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -23,14 +27,26 @@ public class RegController {
     private EmpService empService;
 
     @PostMapping
-    public Result reg(@RequestBody Emp emp){
-        log.info("员工注册：{}",emp);
+    public Result reg(@RequestBody Emp emp) {
+        log.info("员工注册：{}", emp);
         Emp e = empService.getEmp(emp);
-        if (e != null){
+        if (e != null) {
             return Result.error("用户已存在");
         }
-        empService.createEmp(emp);
-        return Result.success("注册成功！");
+        if(empService.createEmp(emp) == 1) {
+            Emp old_e = new Emp();
+            old_e.seteUsername(emp.geteUsername());
+            old_e.setePassword(emp.getePassword());
+            Emp new_e = empService.getEmp(old_e);
+            // 获取token
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("id", new_e.getId());
+            claims.put("name", new_e.geteName());
+            claims.put("username", new_e.geteUsername());
+            String jwt = JwtUtils.generateJwt(claims);
+            return Result.success(jwt);
+        }
+        return Result.error("注册失败");
     }
 
 }

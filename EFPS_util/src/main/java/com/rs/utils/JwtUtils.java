@@ -34,4 +34,19 @@ public class JwtUtils {
                 .getBody();
         return claims;
     }
+
+    public static boolean validateToken(String jwt) {
+        try {
+            Claims claims = parseJwt(jwt);
+            return !isTokenExpired(claims);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static boolean isTokenExpired(Claims claims) {
+        Date expiration = claims.getExpiration();
+        return expiration.before(new Date());
+    }
+
 }
