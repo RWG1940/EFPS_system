@@ -26,13 +26,16 @@ public interface EmpMapper extends BaseMapper<Emp> {
     int createEmp(Emp emp);
 
     // 更新员工信息
-    @Update("UPDATE emp SET eId=#{eId}, eUsername=#{eUsername}, ePassword=#{ePassword}, eName=#{eName}, eGender=#{eGender}, eAge=#{eAge}, ePhone=#{ePhone}, eDeptid=#{eDeptid}, eRole=#{eRole}, eAvatarpath=#{eAvatarpath}, eCreatetime=#{eCreatetime}, eUpdatetime=#{eUpdatetime}, eIsenabled=#{eIsenabled} WHERE id = #{id}")
     int updateEmp(Emp emp);
 
     // 删除指定 ID 的员工
     @Delete("DELETE FROM emp WHERE id = #{id}")
     int deleteEmp(@Param("id") Integer id);
 
+    List<Emp> getEmps(Emp emp);
+
+   // 批量删除员工
+    int deleteEmps(List<Integer> ids);
 }
 
 

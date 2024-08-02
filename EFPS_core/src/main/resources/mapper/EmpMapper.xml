@@ -21,16 +21,6 @@
         <result property="eIsenabled" column="e_isEnabled" jdbcType="INTEGER"/>
     </resultMap>
 
-    <sql id="Comon_Select">
-        SELECT
-        id, e_id, e_username,
-        e_password, e_name, e_gender,
-        e_age, e_phone, e_deptid,
-        e_role, e_avatarpath, e_createtime,
-        e_updatetime, e_isEnabled
-        FROM emp
-    </sql>
-
     <sql id="Base_Column_List">
             id, e_id, e_username,
             e_password, e_name, e_gender,
@@ -73,10 +63,36 @@
             <if test="eIsenabled != null">#{eIsenabled},</if>
         </trim>
     </insert>
+    <update id="updateEmp" parameterType="com.rs.domain.Emp">
+        UPDATE emp
+        <set>
+            <if test="eId != null">e_id = #{eId},</if>
+            <if test="eUsername != null">e_username = #{eUsername},</if>
+            <if test="ePassword != null">e_password = #{ePassword},</if>
+            <if test="eName != null">e_name = #{eName},</if>
+            <if test="eGender != null">e_gender = #{eGender},</if>
+            <if test="eAge != null">e_age = #{eAge},</if>
+            <if test="ePhone != null">e_phone = #{ePhone},</if>
+            <if test="eDeptid != null">e_deptid = #{eDeptid},</if>
+            <if test="eRole != null">e_role = #{eRole},</if>
+            <if test="eAvatarpath != null">e_avatarpath = #{eAvatarpath},</if>
+            <if test="eCreatetime != null">e_createtime = #{eCreatetime},</if>
+            <if test="eUpdatetime != null">e_updatetime = #{eUpdatetime},</if>
+            <if test="eIsenabled != null">e_isEnabled = #{eIsenabled},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteEmps">
+        DELETE FROM emp WHERE id in 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="getEmp" parameterType="com.rs.domain.Emp" resultMap="BaseResultMap">
-
-            <include refid="Comon_Select" />
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM emp
             <where>
                 <if test="id != null">
                     AND id = #{id}
@@ -121,6 +137,57 @@
                     AND e_isEnabled = #{eIsenabled}
                 </if>
             </where>
+
+    </select>
+    <select id="getEmps" resultType="com.rs.domain.Emp">
+        SELECT
+        *
+        FROM emp
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="eId != null">
+                AND e_id = #{eId}
+            </if>
+            <if test="eUsername != null">
+                AND e_username = #{eUsername}
+            </if>
+            <if test="ePassword != null">
+                AND e_password = #{ePassword}
+            </if>
+            <if test="eName != null">
+                AND e_name = #{eName}
+            </if>
+            <if test="eGender != null">
+                AND e_gender = #{eGender}
+            </if>
+            <if test="eAge != null">
+                AND e_age = #{eAge}
+            </if>
+            <if test="ePhone != null">
+                AND e_phone = #{ePhone}
+            </if>
+            <if test="eDeptid != null">
+                AND e_deptid = #{eDeptid}
+            </if>
+            <if test="eRole != null">
+                AND e_role = #{eRole}
+            </if>
+            <if test="eAvatarpath != null">
+                AND e_avatarpath = #{eAvatarpath}
+            </if>
+            <if test="eCreatetime != null">
+                AND e_createtime = #{eCreatetime}
+            </if>
+            <if test="eUpdatetime != null">
+                AND e_updatetime = #{eUpdatetime}
+            </if>
+            <if test="eIsenabled != null">
+                AND e_isEnabled = #{eIsenabled}
+            </if>
+        </where>
+
 
     </select>
 

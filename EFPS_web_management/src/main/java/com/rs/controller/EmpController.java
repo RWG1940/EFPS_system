@@ -1,9 +1,11 @@
 package com.rs.controller;
 
 import com.rs.domain.Emp;
+import com.rs.domain.PageBean;
 import com.rs.domain.Result;
 import com.rs.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +34,25 @@ public class EmpController {
         return Result.success(emps);
     }
 
+    //按条件获取员工列表
+    @PostMapping("/search")
+    public Result getEmps(@RequestBody Emp emp) {
+        log.info("Fetching employees by condition");
+        List<Emp> emps = empService.getEmps(emp);
+        return Result.success(emps);
+    }
+
+    //获取分页数据
+    @GetMapping("/pages")
+    public Result getPages(@RequestParam Integer page,
+                           @RequestParam Integer pageSize) {
+        log.info("Fetching employees pages 参数page：{}，pageSize：{}",page,pageSize);
+        PageBean pagebean = empService.page(page,pageSize);
+        return Result.success(pagebean);
+    }
+
     // 获取指定字段的员工
-    @GetMapping("/emp")
+    @PostMapping("/emp")
     public Result getEmpById(@RequestBody Emp emp) {
         log.info("Fetching employee with : {}", emp);
         Emp e = empService.getEmp(emp);
@@ -62,6 +81,11 @@ public class EmpController {
         return empService.deleteEmp(id);
     }
 
-//    员工登录
+    // 删除员工合集
+    @DeleteMapping("/batch")
+    public int deleteEmps(@RequestParam List<Integer> ids) {
+        log.info("Deleting employees with IDs: {}", ids);
+        return empService.deleteEmps(ids);
+    }
 
 }

@@ -2,6 +2,7 @@ package com.rs.service;
 
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rs.domain.PageBean;
 
 import java.util.List;
 
@@ -21,4 +22,10 @@ public interface EmpService extends IService<Emp> {
     int deleteEmp(Integer id);
 
     Emp getEmp(Emp emp);
+
+    List<Emp> getEmps(Emp emp);
+
+    PageBean page(Integer page,Integer pageSize);
+
+    int deleteEmps(List<Integer> ids);
 }
