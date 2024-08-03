@@ -43,6 +43,7 @@ public class RegController {
             claims.put("id", new_e.getId());
             claims.put("name", new_e.geteName());
             claims.put("username", new_e.geteUsername());
+            claims.put("avatar",new_e.geteAvatarpath());
             String jwt = JwtUtils.generateJwt(claims);
             return Result.success(jwt);
         }

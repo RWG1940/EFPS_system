@@ -34,6 +34,7 @@ public class LoginController {
             claims.put("id",e.getId());
             claims.put("name",e.geteName());
             claims.put("username",e.geteUsername());
+            claims.put("avatar",e.geteAvatarpath());
             String jwt = JwtUtils.generateJwt(claims);
             return Result.success(jwt);
         }
