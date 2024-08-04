@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -72,12 +73,12 @@ public class Emp implements Serializable {
     /**
      * 
      */
-    private Date eCreatetime;
+    private Timestamp eCreatetime;
 
     /**
      * 
      */
-    private Date eUpdatetime;
+    private Timestamp eUpdatetime;
 
     /**
      * 
@@ -251,7 +252,7 @@ public class Emp implements Serializable {
     /**
      * 
      */
-    public void seteCreatetime(Date eCreatetime) {
+    public void seteCreatetime(Timestamp eCreatetime) {
         this.eCreatetime = eCreatetime;
     }
 
@@ -265,7 +266,7 @@ public class Emp implements Serializable {
     /**
      * 
      */
-    public void seteUpdatetime(Date eUpdatetime) {
+    public void seteUpdatetime(Timestamp eUpdatetime) {
         this.eUpdatetime = eUpdatetime;
     }
 

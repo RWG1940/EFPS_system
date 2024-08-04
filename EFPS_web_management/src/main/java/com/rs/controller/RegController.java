@@ -4,6 +4,7 @@ import com.rs.domain.Emp;
 import com.rs.domain.Result;
 import com.rs.service.EmpService;
 import com.rs.utils.JwtUtils;
+import com.rs.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ import java.util.Map;
 public class RegController {
     @Autowired
     private EmpService empService;
+    @Autowired
+    private TimeUtil timeUtil;
 
     @PostMapping
     public Result reg(@RequestBody Emp emp) {
@@ -38,6 +41,9 @@ public class RegController {
             old_e.seteUsername(emp.geteUsername());
             old_e.setePassword(emp.getePassword());
             Emp new_e = empService.getEmp(old_e);
+            new_e.seteUpdatetime(timeUtil.getCurrentTimestamp());
+            new_e.seteCreatetime(timeUtil.getCurrentTimestamp());
+            empService.updateEmp(new_e);
             // 获取token
             Map<String, Object> claims = new HashMap<>();
             claims.put("id", new_e.getId());

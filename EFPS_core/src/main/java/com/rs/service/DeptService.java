@@ -2,6 +2,9 @@ package com.rs.service;
 
 import com.rs.domain.Dept;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rs.domain.PageBean;
+
+import java.util.List;
 
 /**
 * @author RWG
@@ -10,4 +13,19 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface DeptService extends IService<Dept> {
 
+    List<Dept> getAllDepts();
+
+    List<Dept> getDepts(Dept dept);
+
+    PageBean page(Integer page, Integer pageSize);
+
+    Dept getDept(Dept dept);
+
+    int createDept(Dept dept);
+
+    int updateDept(Dept dept);
+
+    int deleteDept(Integer id);
+
+    int deleteDepts(List<Integer> ids);
 }

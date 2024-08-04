@@ -17,4 +17,84 @@
         id,d_id,d_name,
         d_avatarpath,d_createtime,d_updatetime
     </sql>
+    <insert id="createDept">
+        INSERT INTO dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dId != null">d_id,</if>
+            <if test="dName != null">d_name,</if>
+            <if test="dAvatarpath != null">d_avatarpath,</if>
+            <if test="dCreatetime != null">d_createtime,</if>
+            <if test="dUpdatetime != null">d_updatetime,</if>
+        </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="dId != null">#{dId},</if>
+                <if test="dName != null">#{dName},</if>
+                <if test="dAvatarpath != null">#{dAvatarpath},</if>
+                <if test="dCreatetime != null">#{dCreatetime},</if>
+                <if test="dUpdatetime != null">#{dUpdatetime},</if>
+            </trim>
+    </insert>
+    <update id="updateDept">
+        UPDATE dept
+        <set>
+            <if test="dId != null">d_id = #{dId},</if>
+            <if test="dName != null">d_name = #{dName},</if>
+            <if test="dAvatarpath != null">d_avatarpath = #{dAvatarpath},</if>
+            <if test="dCreatetime != null">d_createtime = #{dCreatetime},</if>
+            <if test="dUpdatetime != null">d_updatetime = #{dUpdatetime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteDept">
+        DELETE FROM dept WHERE id = #{id}
+    </delete>
+    <delete id="deleteDepts">
+        DELETE FROM dept WHERE id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getAllDepts" resultType="com.rs.domain.Dept">
+        SELECT
+        *
+        FROM dept
+    </select>
+    <select id="getDepts" resultType="com.rs.domain.Dept">
+        SELECT
+        *
+        FROM dept
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="dId != null">
+                AND d_id = #{dId}
+            </if>
+            <if test="dName != null">
+                AND d_name = #{dName}
+            </if>
+            <if test="dAvatarpath != null">
+                AND d_avatarpath = #{dAvatarpath}
+           </if>
+        </where>
+    </select>
+    <select id="getDept" resultType="com.rs.domain.Dept">
+        SELECT
+        *
+        FROM dept
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="dId != null">
+                AND d_id = #{dId}
+            </if>
+            <if test="dName != null">
+                AND d_name = #{dName}
+            </if>
+            <if test="dAvatarpath != null">
+                AND d_avatarpath = #{dAvatarpath}
+           </if>
+        </where>
+    </select>
 </mapper>

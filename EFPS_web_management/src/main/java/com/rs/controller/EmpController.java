@@ -4,10 +4,11 @@ import com.rs.domain.Emp;
 import com.rs.domain.PageBean;
 import com.rs.domain.Result;
 import com.rs.service.EmpService;
+import com.rs.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class EmpController {
 
     @Autowired
     private EmpService empService;
+    @Autowired
+    private TimeUtil timeUtil;
 
     // 获取所有员工
     @GetMapping
@@ -70,7 +73,7 @@ public class EmpController {
     @PutMapping("/{id}")
     public int updateEmp(@PathVariable Integer id, @RequestBody Emp emp) {
         log.info("Updating employee with ID: {}", id);
-        emp.setId(id);
+        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
         return empService.updateEmp(emp);
     }
 

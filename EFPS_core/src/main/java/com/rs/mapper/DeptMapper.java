@@ -4,6 +4,8 @@ import com.rs.domain.Dept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * @author RWG
 * @description 针对表【dept】的数据库操作Mapper
@@ -13,6 +15,19 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DeptMapper extends BaseMapper<Dept> {
 
+    List<Dept> getAllDepts();
+
+    List<Dept> getDepts(Dept dept);
+
+    Dept getDept(Dept dept);
+
+    int createDept(Dept dept);
+
+    int updateDept(Dept dept);
+
+    int deleteDept(Integer id);
+
+    int deleteDepts(List<Integer> ids);
 }
 
 

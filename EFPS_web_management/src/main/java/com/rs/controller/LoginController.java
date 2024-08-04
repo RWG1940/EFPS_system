@@ -52,7 +52,7 @@ public class LoginController {
             emp.seteUsername(username);
             if (username != null && empService.getEmp(emp) != null) {
                 if (JwtUtils.validateToken(token)) {
-                    return Result.success("自动登录成功");
+                    return Result.success(empService.getEmp(emp));
                 } else {
                     return Result.error("令牌已过期或无效");
                 }
@@ -64,5 +64,4 @@ public class LoginController {
             return Result.error("自动登录失败");
         }
     }
-
 }

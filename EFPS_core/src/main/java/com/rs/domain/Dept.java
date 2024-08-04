@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -37,12 +38,12 @@ public class Dept implements Serializable {
     /**
      * 
      */
-    private Date dCreatetime;
+    private Timestamp dCreatetime;
 
     /**
      * 
      */
-    private Date dUpdatetime;
+    private Timestamp dUpdatetime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -106,14 +107,14 @@ public class Dept implements Serializable {
     /**
      * 
      */
-    public Date getdCreatetime() {
+    public Timestamp getdCreatetime() {
         return dCreatetime;
     }
 
     /**
      * 
      */
-    public void setdCreatetime(Date dCreatetime) {
+    public void setdCreatetime(Timestamp dCreatetime) {
         this.dCreatetime = dCreatetime;
     }
 
@@ -127,7 +128,7 @@ public class Dept implements Serializable {
     /**
      * 
      */
-    public void setdUpdatetime(Date dUpdatetime) {
+    public void setdUpdatetime(Timestamp dUpdatetime) {
         this.dUpdatetime = dUpdatetime;
     }
 
