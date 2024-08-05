@@ -3,6 +3,7 @@ package com.rs.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.rs.domain.DeptCount;
 import com.rs.domain.Emp;
 import com.rs.domain.PageBean;
 import com.rs.service.EmpService;
@@ -65,6 +66,21 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     @Override
     public int deleteEmps(List<Integer> ids) {
         return empMapper.deleteEmps(ids);
+    }
+
+    @Override
+    public int deleteEmpBydid(Integer id) {
+        return empMapper.deleteEmpBydid(id);
+    }
+
+    @Override
+    public int deleteEmpsBydids(List<Integer> ids) {
+        return empMapper.deleteEmpsBydids(ids);
+    }
+
+    @Override
+    public List<DeptCount> findDeptIdCount() {
+        return empMapper.findDeptIdCount();
     }
 }
 

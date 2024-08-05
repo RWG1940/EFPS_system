@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.rs.domain.Dept">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="dId" column="d_id" jdbcType="INTEGER"/>
+            <result property="dTotal" column="d_total" jdbcType="INTEGER"/>
             <result property="dName" column="d_name" jdbcType="VARCHAR"/>
             <result property="dAvatarpath" column="d_avatarpath" jdbcType="VARCHAR"/>
             <result property="dCreatetime" column="d_createtime" jdbcType="TIMESTAMP"/>
@@ -14,20 +14,20 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,d_id,d_name,
+        id,d_total,d_name,
         d_avatarpath,d_createtime,d_updatetime
     </sql>
     <insert id="createDept">
         INSERT INTO dept
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="dId != null">d_id,</if>
+            <if test="dTotal != null">d_total,</if>
             <if test="dName != null">d_name,</if>
             <if test="dAvatarpath != null">d_avatarpath,</if>
             <if test="dCreatetime != null">d_createtime,</if>
             <if test="dUpdatetime != null">d_updatetime,</if>
         </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="dId != null">#{dId},</if>
+                <if test="dTotal != null">#{dTotal},</if>
                 <if test="dName != null">#{dName},</if>
                 <if test="dAvatarpath != null">#{dAvatarpath},</if>
                 <if test="dCreatetime != null">#{dCreatetime},</if>
@@ -37,7 +37,7 @@
     <update id="updateDept">
         UPDATE dept
         <set>
-            <if test="dId != null">d_id = #{dId},</if>
+            <if test="dTotal != null">d_total = #{dTotal},</if>
             <if test="dName != null">d_name = #{dName},</if>
             <if test="dAvatarpath != null">d_avatarpath = #{dAvatarpath},</if>
             <if test="dCreatetime != null">d_createtime = #{dCreatetime},</if>
@@ -67,8 +67,8 @@
             <if test="id != null">
                 AND id = #{id}
             </if>
-            <if test="dId != null">
-                AND d_id = #{dId}
+            <if test="dTotal != null">
+                AND d_total = #{dTotal}
             </if>
             <if test="dName != null">
                 AND d_name = #{dName}
@@ -86,8 +86,8 @@
             <if test="id != null">
                 AND id = #{id}
             </if>
-            <if test="dId != null">
-                AND d_id = #{dId}
+            <if test="dTotal != null">
+                AND d_total = #{dTotal}
             </if>
             <if test="dName != null">
                 AND d_name = #{dName}

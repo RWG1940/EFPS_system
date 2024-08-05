@@ -20,6 +20,10 @@
         <result property="eUpdatetime" column="e_updatetime" jdbcType="TIMESTAMP"/>
         <result property="eIsenabled" column="e_isEnabled" jdbcType="INTEGER"/>
     </resultMap>
+    <resultMap id="deptCountResultMap" type="com.rs.domain.DeptCount">
+        <result property="eDeptId" column="e_deptid" />
+        <result property="dTotal" column="d_total" javaType="int" />
+    </resultMap>
 
     <sql id="Base_Column_List">
             id, e_id, e_username,
@@ -84,6 +88,12 @@
     </update>
     <delete id="deleteEmps">
         DELETE FROM emp WHERE id in 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteEmpsBydids">
+        DELETE FROM emp WHERE e_deptid in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -189,6 +199,15 @@
         </where>
 
 
+    </select>
+    <select id="findDeptIdCount" resultType="com.rs.domain.DeptCount">
+        SELECT
+            e_deptid,
+            COUNT(e_id) AS d_total
+        FROM
+            emp
+        GROUP BY
+            e_deptid
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.rs.service;
 
+import com.rs.domain.DeptCount;
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rs.domain.PageBean;
@@ -28,4 +29,10 @@ public interface EmpService extends IService<Emp> {
     PageBean page(Integer page,Integer pageSize);
 
     int deleteEmps(List<Integer> ids);
+
+    int deleteEmpBydid(Integer id);
+
+    int deleteEmpsBydids(List<Integer> ids);
+
+    List<DeptCount> findDeptIdCount();
 }

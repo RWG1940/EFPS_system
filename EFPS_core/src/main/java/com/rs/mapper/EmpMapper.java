@@ -1,5 +1,6 @@
 package com.rs.mapper;
 
+import com.rs.domain.DeptCount;
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
@@ -36,6 +37,13 @@ public interface EmpMapper extends BaseMapper<Emp> {
 
    // 批量删除员工
     int deleteEmps(List<Integer> ids);
+
+    @Delete("DELETE FROM emp WHERE e_deptid = #{e_deptid}")
+    int deleteEmpBydid(Integer e_deptid);
+
+    int deleteEmpsBydids(List<Integer> ids);
+
+    List<DeptCount> findDeptIdCount();
 }
 
 

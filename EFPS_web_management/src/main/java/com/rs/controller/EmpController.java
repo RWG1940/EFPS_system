@@ -66,6 +66,9 @@ public class EmpController {
     @PostMapping
     public int createEmp(@RequestBody Emp emp) {
         log.info("Creating new employee: {}", emp);
+        emp.seteCreatetime(timeUtil.getCurrentTimestamp());
+        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
+        emp.seteIsenabled(0);
         return empService.createEmp(emp);
     }
 

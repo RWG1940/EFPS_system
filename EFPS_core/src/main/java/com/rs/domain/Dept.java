@@ -23,7 +23,7 @@ public class Dept implements Serializable {
     /**
      * 
      */
-    private Integer dId;
+    private Integer dTotal;
 
     /**
      * 
@@ -65,15 +65,15 @@ public class Dept implements Serializable {
     /**
      * 
      */
-    public Integer getdId() {
-        return dId;
+    public Integer getdTotal() {
+        return dTotal;
     }
 
     /**
      * 
      */
-    public void setdId(Integer dId) {
-        this.dId = dId;
+    public void setdTotal(Integer dTotal) {
+        this.dTotal = dTotal;
     }
 
     /**
@@ -145,7 +145,7 @@ public class Dept implements Serializable {
         }
         Dept other = (Dept) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getdId() == null ? other.getdId() == null : this.getdId().equals(other.getdId()))
+            && (this.getdTotal() == null ? other.getdTotal() == null : this.getdTotal().equals(other.getdTotal()))
             && (this.getdName() == null ? other.getdName() == null : this.getdName().equals(other.getdName()))
             && (this.getdAvatarpath() == null ? other.getdAvatarpath() == null : this.getdAvatarpath().equals(other.getdAvatarpath()))
             && (this.getdCreatetime() == null ? other.getdCreatetime() == null : this.getdCreatetime().equals(other.getdCreatetime()))
@@ -157,7 +157,7 @@ public class Dept implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getdId() == null) ? 0 : getdId().hashCode());
+        result = prime * result + ((getdTotal() == null) ? 0 : getdTotal().hashCode());
         result = prime * result + ((getdName() == null) ? 0 : getdName().hashCode());
         result = prime * result + ((getdAvatarpath() == null) ? 0 : getdAvatarpath().hashCode());
         result = prime * result + ((getdCreatetime() == null) ? 0 : getdCreatetime().hashCode());
@@ -172,7 +172,7 @@ public class Dept implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", dId=").append(dId);
+        sb.append(", dTotal=").append(dTotal);
         sb.append(", dName=").append(dName);
         sb.append(", dAvatarpath=").append(dAvatarpath);
         sb.append(", dCreatetime=").append(dCreatetime);
