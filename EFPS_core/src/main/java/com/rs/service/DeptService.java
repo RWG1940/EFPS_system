@@ -28,4 +28,6 @@ public interface DeptService extends IService<Dept> {
     int deleteDept(Integer id);
 
     int deleteDepts(List<Integer> ids);
+
+    PageBean getPages(Integer page, Integer pageSize, String token);
 }

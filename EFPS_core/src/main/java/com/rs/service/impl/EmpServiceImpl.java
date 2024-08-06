@@ -10,6 +10,7 @@ import com.rs.service.EmpService;
 import com.rs.mapper.EmpMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.rs.utils.TimeUtil;
 
 import java.util.List;
 
@@ -28,14 +29,20 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     public List<Emp> getAllEmps() {
         return empMapper.getAllEmps();
     }
+    @Autowired
+    private TimeUtil timeUtil;
 
     @Override
     public int createEmp(Emp emp) {
+        emp.seteCreatetime(timeUtil.getCurrentTimestamp());
+        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
+        emp.seteIsenabled(0);
         return empMapper.createEmp(emp);
     }
 
     @Override
     public int updateEmp(Emp emp) {
+        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
         return empMapper.updateEmp(emp);
     }
 

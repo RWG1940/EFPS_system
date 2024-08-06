@@ -26,14 +26,15 @@ public class EmpController {
 
     @Autowired
     private EmpService empService;
-    @Autowired
-    private TimeUtil timeUtil;
 
     // 获取所有员工
     @GetMapping
     public Result getAllEmps() {
         log.info("Fetching all employees");
         List<Emp> emps = empService.getAllEmps();
+        if (emps == null){
+            return Result.error("没有找到任何员工");
+        }
         return Result.success(emps);
     }
 
@@ -42,6 +43,9 @@ public class EmpController {
     public Result getEmps(@RequestBody Emp emp) {
         log.info("Fetching employees by condition");
         List<Emp> emps = empService.getEmps(emp);
+        if (emps == null){
+            return Result.error("没有找到任何员工");
+        }
         return Result.success(emps);
     }
 
@@ -51,6 +55,9 @@ public class EmpController {
                            @RequestParam Integer pageSize) {
         log.info("Fetching employees pages 参数page：{}，pageSize：{}",page,pageSize);
         PageBean pagebean = empService.page(page,pageSize);
+        if (pagebean == null){
+            return Result.error("没有找到任何员工");
+        }
         return Result.success(pagebean);
     }
 
@@ -59,39 +66,51 @@ public class EmpController {
     public Result getEmpById(@RequestBody Emp emp) {
         log.info("Fetching employee with : {}", emp);
         Emp e = empService.getEmp(emp);
+        if (e == null){
+            return Result.error("没有找到任何员工");
+        }
         return Result.success(e);
     }
 
     // 创建新员工
     @PostMapping
-    public int createEmp(@RequestBody Emp emp) {
+    public Result createEmp(@RequestBody Emp emp) {
         log.info("Creating new employee: {}", emp);
-        emp.seteCreatetime(timeUtil.getCurrentTimestamp());
-        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
-        emp.seteIsenabled(0);
-        return empService.createEmp(emp);
+
+        if (empService.createEmp(emp) == 0){
+            return Result.error("创建失败");
+        }
+        return Result.success();
     }
 
     // 更新员工信息
     @PutMapping("/{id}")
-    public int updateEmp(@PathVariable Integer id, @RequestBody Emp emp) {
+    public Result updateEmp(@PathVariable Integer id, @RequestBody Emp emp) {
         log.info("Updating employee with ID: {}", id);
-        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
-        return empService.updateEmp(emp);
+        if (empService.updateEmp(emp) == 0){
+            return Result.error("更新失败");
+        }
+        return Result.success();
     }
 
     // 删除指定 ID 的员工
     @DeleteMapping("/{id}")
-    public int deleteEmp(@PathVariable Integer id) {
+    public Result deleteEmp(@PathVariable Integer id) {
         log.info("Deleting employee with ID: {}", id);
-        return empService.deleteEmp(id);
+        if (empService.deleteEmp(id) == 0){
+            return Result.error("删除失败");
+        }
+        return Result.success();
     }
 
     // 删除员工合集
     @DeleteMapping("/batch")
-    public int deleteEmps(@RequestParam List<Integer> ids) {
+    public Result deleteEmps(@RequestParam List<Integer> ids) {
         log.info("Deleting employees with IDs: {}", ids);
-        return empService.deleteEmps(ids);
+        if (empService.deleteEmps(ids) == 0){
+            return Result.error("删除失败");
+        }
+        return Result.success();
     }
 
 }
