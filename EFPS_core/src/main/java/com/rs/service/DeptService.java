@@ -2,7 +2,7 @@ package com.rs.service;
 
 import com.rs.domain.Dept;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rs.domain.PageBean;
+import com.rs.domain.vo.PageBean;
 
 import java.util.List;
 

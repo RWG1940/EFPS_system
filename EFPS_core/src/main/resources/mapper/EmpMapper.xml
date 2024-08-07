@@ -20,7 +20,7 @@
         <result property="eUpdatetime" column="e_updatetime" jdbcType="TIMESTAMP"/>
         <result property="eIsenabled" column="e_isEnabled" jdbcType="INTEGER"/>
     </resultMap>
-    <resultMap id="deptCountResultMap" type="com.rs.domain.DeptCount">
+    <resultMap id="deptCountResultMap" type="com.rs.domain.vo.DeptCount">
         <result property="eDeptId" column="e_deptid" />
         <result property="dTotal" column="d_total" javaType="int" />
     </resultMap>
@@ -200,7 +200,7 @@
 
 
     </select>
-    <select id="findDeptIdCount" resultType="com.rs.domain.DeptCount">
+    <select id="findDeptIdCount" resultType="com.rs.domain.vo.DeptCount">
         SELECT
             e_deptid,
             COUNT(e_id) AS d_total

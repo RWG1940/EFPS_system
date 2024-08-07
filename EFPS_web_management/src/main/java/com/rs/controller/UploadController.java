@@ -1,6 +1,6 @@
 package com.rs.controller;
 
-import com.rs.domain.Result;
+import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.utils.YunOSS;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 /**
  * @FileName: UploadController
@@ -39,10 +35,10 @@ public class UploadController {
 //        return Result.success();
 //    }
     @PostMapping("/upload")
-    public Result upload(@RequestParam("file") MultipartFile image) throws Exception {
+    public ResultResponse upload(@RequestParam("file") MultipartFile image) throws Exception {
         log.info("文件上传{}", image.getOriginalFilename());
         String url = yunOSS.upload(image);
         log.info("文件上传完成，文件访问的url：{}",url);
-        return Result.success(url);
+        return ResultResponse.success(url);
     }
 }

@@ -1,7 +1,7 @@
 package com.rs.controller;
 
 import com.rs.domain.Emp;
-import com.rs.domain.Result;
+import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.EmpService;
 import com.rs.utils.JwtUtils;
 import com.rs.utils.TimeUtil;
@@ -30,11 +30,11 @@ public class RegController {
     private TimeUtil timeUtil;
 
     @PostMapping
-    public Result reg(@RequestBody Emp emp) {
+    public ResultResponse reg(@RequestBody Emp emp) {
         log.info("员工注册：{}", emp);
         Emp e = empService.getEmp(emp);
         if (e != null) {
-            return Result.error("用户已存在");
+            return ResultResponse.error("用户已存在");
         }
         if(empService.createEmp(emp) == 1) {
             Emp old_e = new Emp();
@@ -51,9 +51,9 @@ public class RegController {
             claims.put("username", new_e.geteUsername());
             claims.put("avatar",new_e.geteAvatarpath());
             String jwt = JwtUtils.generateJwt(claims);
-            return Result.success(jwt);
+            return ResultResponse.success(jwt);
         }
-        return Result.error("注册失败");
+        return ResultResponse.error("注册失败");
     }
 
 }

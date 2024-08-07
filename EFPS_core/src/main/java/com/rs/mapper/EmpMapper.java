@@ -1,6 +1,6 @@
 package com.rs.mapper;
 
-import com.rs.domain.DeptCount;
+import com.rs.domain.vo.DeptCount;
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;

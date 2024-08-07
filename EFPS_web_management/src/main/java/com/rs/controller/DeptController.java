@@ -1,6 +1,8 @@
 package com.rs.controller;
 
 import com.rs.domain.*;
+import com.rs.domain.vo.PageBean;
+import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.DeptService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,89 +28,89 @@ public class DeptController {
 
     // 获取所有部门数据
     @GetMapping
-    public Result getAllDepts() {
+    public ResultResponse getAllDepts() {
         log.info("Fetching all Depts");
         List<Dept> deptList = deptService.getAllDepts();
         if (deptList == null){
-            return Result.error("暂无数据");
+            return ResultResponse.error("暂无数据");
         }
-        return Result.success(deptList);
+        return ResultResponse.success(deptList);
     }
 
     //按条件获取部门列表
     @PostMapping("/search")
-    public Result getDepts(@RequestBody Dept dept) {
+    public ResultResponse getDepts(@RequestBody Dept dept) {
         log.info("Fetching Depts by condition");
         List<Dept> d = deptService.getDepts(dept);
         if (d == null){
-            return Result.error("暂无数据");
+            return ResultResponse.error("暂无数据");
         }
-        return Result.success(d);
+        return ResultResponse.success(d);
     }
 
     //获取分页数据
     @GetMapping("/pages")
-    public Result getPages(@RequestParam Integer page,
+    public ResultResponse getPages(@RequestParam Integer page,
                            @RequestParam Integer pageSize, @RequestParam String token) {
         log.info("Fetching Depts pages 参数page：{}，pageSize：{} By Token：{}", page, pageSize, token);
         PageBean pageBean = deptService.getPages(page, pageSize, token);
         if (pageBean == null){
-            return Result.error("暂无数据");
+            return ResultResponse.error("暂无数据");
         }
-        return Result.success(pageBean);
+        return ResultResponse.success(pageBean);
 
     }
 
 
     // 获取指定字段的部门
     @PostMapping("/dept")
-    public Result getEmpById(@RequestBody Dept dept) {
+    public ResultResponse getEmpById(@RequestBody Dept dept) {
         log.info("Fetching Depts with : {}", dept);
         Dept d = deptService.getDept(dept);
         if (d == null){
-            return Result.error("暂无数据");
+            return ResultResponse.error("暂无数据");
         }
-        return Result.success(d);
+        return ResultResponse.success(d);
     }
 
     // 创建新部门
     @PostMapping
-    public Result createEmp(@RequestBody Dept dept) {
+    public ResultResponse createEmp(@RequestBody Dept dept) {
         log.info("Creating new Dept: {}", dept);
         if (deptService.createDept(dept) == 0){
-            return Result.error("创建失败");
+            return ResultResponse.error("创建失败");
         }
-        return Result.success();
+        return ResultResponse.success();
     }
 
     // 更新部门信息
     @PutMapping("/{id}")
-    public Result updateEmp(@PathVariable Integer id, @RequestBody Dept dept) {
+    public ResultResponse updateEmp(@PathVariable Integer id, @RequestBody Dept dept) {
         log.info("Updating Dept with ID: {}", id);
         if (deptService.updateDept(dept) == 0){
-            return Result.error("更新失败");
+            return ResultResponse.error("更新失败");
         }
-        return Result.success();
+        return ResultResponse.success();
     }
 
     // 删除指定 ID 的部门
     @DeleteMapping("/{id}")
-    public Result deleteEmp(@PathVariable Integer id) {
+    public ResultResponse deleteEmp(@PathVariable Integer id) {
         log.info("Deleting Dept with ID: {}", id);
         if (deptService.deleteDept(id) == 0){
-            return Result.error("删除失败");
+            return ResultResponse.error("删除失败");
         }
-        return Result.success();
+        return ResultResponse.success();
     }
 
     // 删除部门合集
     @DeleteMapping("/batch")
-    public Result deleteEmps(@RequestParam List<Integer> ids) {
+    public ResultResponse deleteEmps(@RequestParam List<Integer> ids) {
         log.info("Deleting Depts with IDs: {}", ids);
         if (deptService.deleteDepts(ids) == 0){
-            return Result.error("删除失败");
+            return ResultResponse.error("删除失败");
         }
-        return Result.success();
+        return ResultResponse.success();
     }
 
 }

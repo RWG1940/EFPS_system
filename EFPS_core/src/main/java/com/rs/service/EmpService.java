@@ -1,9 +1,9 @@
 package com.rs.service;
 
-import com.rs.domain.DeptCount;
+import com.rs.domain.vo.DeptCount;
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rs.domain.PageBean;
+import com.rs.domain.vo.PageBean;
 
 import java.util.List;
 
