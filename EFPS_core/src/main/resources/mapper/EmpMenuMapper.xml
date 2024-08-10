@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.EmpMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.EmpMenu">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="eId1" column="e_id1" jdbcType="INTEGER"/>
+            <result property="mId" column="m_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,e_id1,m_id
+    </sql>
+    <select id="findPermissionsByEmpId" resultType="java.lang.String">
+        SELECT m.m_sign
+        FROM emp_menu em
+                 LEFT JOIN menu m ON em.m_id = m.m_id
+        WHERE em.e_id1 = #{empId};
+    </select>
+</mapper>
