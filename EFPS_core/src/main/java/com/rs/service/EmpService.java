@@ -4,6 +4,7 @@ import com.rs.domain.vo.DeptCount;
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rs.domain.vo.PageBean;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -35,4 +36,10 @@ public interface EmpService extends IService<Emp> {
     int deleteEmpsBydids(List<Integer> ids);
 
     List<DeptCount> findDeptIdCount();
+
+    String login(Emp emp);
+
+    UserDetails getEmpBytoken(String token);
+
+    public List<String> getUserPermissions(Integer empId);
 }

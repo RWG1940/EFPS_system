@@ -6,11 +6,15 @@ import com.rs.domain.vo.LoginUserDetail;
 import com.rs.exception.pojo.BizException;
 import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.mapper.EmpMapper;
+import com.rs.mapper.EmpMenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @FileName: UserDetailsServiceImpl
@@ -23,17 +27,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private EmpMapper empMapper;
+    @Autowired
+    private EmpMenuMapper empMenuMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 根据用户名查询用户信息
+        // 连接数据库，根据用户名查询用户信息
         QueryWrapper<Emp> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("e_name", username);
+        queryWrapper.eq("e_username", username);
         Emp emp = empMapper.selectOne(queryWrapper);
         if (emp == null) {
-            throw new BizException(ExceptionEnum.NOT_FOUND);
+            throw new BizException("不存在该用户: " + username);
         }
-        // 判断密码是否正确
-        // 返回UserDetail对象
-        return  new LoginUserDetail(emp);
+        // 赋权
+        List<String> roles = empMenuMapper.findPermissionsByEmpId(emp.getId());
+
+        return new LoginUserDetail(emp,roles);
     }
 }

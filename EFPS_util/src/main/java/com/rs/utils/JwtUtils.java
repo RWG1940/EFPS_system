@@ -1,7 +1,10 @@
 package com.rs.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.rs.exception.pojo.BizException;
+import com.rs.exception.pojo.ExceptionEnum;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -15,21 +18,25 @@ import java.util.Map;
  * @Author: RWG
  */
 public class JwtUtils {
-    private static String signKey = "loveSJM";
-    private static Long expire = 43200000L;//12小时
+    private static final String SIGN_KEY = "loveSJM";
+    private static final long DEFAULT_EXPIRE = 43200000L; // 12小时
 
-    public static String generateJwt(Map<String,Object> claims){
+    public static String generateJwt(Map<String, Object> claims, Long expire) {
+        if (expire == null) {
+            expire = DEFAULT_EXPIRE;
+        }
         String jwt = Jwts.builder()
+                .setSubject(JSON.toJSONString(claims))
                 .addClaims(claims)
-                .signWith(SignatureAlgorithm.HS256,signKey)
-                .setExpiration(new Date(System.currentTimeMillis()+expire))
+                .signWith(SignatureAlgorithm.HS256, SIGN_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + expire))
                 .compact();
         return jwt;
     }
 
-    public static Claims parseJwt(String jwt){
+    public static Claims parseJwt(String jwt) {
         Claims claims = Jwts.parser()
-                .setSigningKey(signKey)
+                .setSigningKey(SIGN_KEY)
                 .parseClaimsJws(jwt)
                 .getBody();
         return claims;
@@ -49,4 +56,25 @@ public class JwtUtils {
         return expiration.before(new Date());
     }
 
+    /**
+     * 从JSON字符串生成JWT令牌。
+     *
+     * @param jsonString JSON字符串
+     * @param expire 过期时间（毫秒），如果为null则使用默认值
+     * @return 生成的JWT令牌
+     */
+    public static String generateJwtFromJson(String jsonString, Long expire) {
+        Map<String, Object> claims = JSON.parseObject(jsonString, new TypeReference<Map<String, Object>>(){});
+        long actualExpire = (expire != null) ? expire : DEFAULT_EXPIRE;
+        return generateJwt(claims, actualExpire);
+    }
+
+    public static String getUsernameFromToken(String token) {
+        try {
+            Claims claims = parseJwt(token);
+            return claims.get("username", String.class);
+        } catch (Exception e) {
+            throw new BizException(ExceptionEnum.NOT_FOUND);
+        }
+    }
 }

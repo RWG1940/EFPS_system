@@ -1,287 +1,158 @@
 package com.rs.domain;
 
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * 
+ *
  * @TableName emp
  */
+@NoArgsConstructor
 @TableName(value ="emp")
 public class Emp implements Serializable {
-    /**
-     * 
-     */
+
     @TableId
     private Integer id;
 
-    /**
-     * 
-     */
     private String eId;
 
-    /**
-     * 
-     */
     private String eUsername;
 
-    /**
-     * 
-     */
     private String ePassword;
 
-    /**
-     * 
-     */
     private String eName;
 
-    /**
-     * 
-     */
     private Integer eGender;
 
-    /**
-     * 
-     */
     private Integer eAge;
 
-    /**
-     * 
-     */
     private String ePhone;
 
-    /**
-     * 
-     */
-    private Integer eDeptid;
-
-    /**
-     * 
-     */
-    private String eRole;
-
-    /**
-     * 
-     */
     private String eAvatarpath;
 
-    /**
-     * 
-     */
-    private Timestamp eCreatetime;
+    private Date eCreatetime;
 
-    /**
-     * 
-     */
-    private Timestamp eUpdatetime;
+    private Date eUpdatetime;
 
-    /**
-     * 
-     */
     private Integer eIsenabled;
+
+    private Integer eDeptid;
+
+    public Emp(String eUsername) {
+        this.eUsername = eUsername;
+
+    }
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * 
-     */
     public String geteId() {
         return eId;
     }
 
-    /**
-     * 
-     */
     public void seteId(String eId) {
         this.eId = eId;
     }
 
-    /**
-     * 
-     */
     public String geteUsername() {
         return eUsername;
     }
 
-    /**
-     * 
-     */
     public void seteUsername(String eUsername) {
         this.eUsername = eUsername;
     }
 
-    /**
-     * 
-     */
     public String getePassword() {
         return ePassword;
     }
 
-    /**
-     * 
-     */
     public void setePassword(String ePassword) {
         this.ePassword = ePassword;
     }
 
-    /**
-     * 
-     */
     public String geteName() {
         return eName;
     }
 
-    /**
-     * 
-     */
     public void seteName(String eName) {
         this.eName = eName;
     }
 
-    /**
-     * 
-     */
     public Integer geteGender() {
         return eGender;
     }
 
-    /**
-     * 
-     */
     public void seteGender(Integer eGender) {
         this.eGender = eGender;
     }
 
-    /**
-     * 
-     */
     public Integer geteAge() {
         return eAge;
     }
 
-    /**
-     * 
-     */
     public void seteAge(Integer eAge) {
         this.eAge = eAge;
     }
 
-    /**
-     * 
-     */
     public String getePhone() {
         return ePhone;
     }
 
-    /**
-     * 
-     */
     public void setePhone(String ePhone) {
         this.ePhone = ePhone;
     }
 
-    /**
-     * 
-     */
-    public Integer geteDeptid() {
-        return eDeptid;
-    }
-
-    /**
-     * 
-     */
-    public void seteDeptid(Integer eDeptid) {
-        this.eDeptid = eDeptid;
-    }
-
-    /**
-     * 
-     */
-    public String geteRole() {
-        return eRole;
-    }
-
-    /**
-     * 
-     */
-    public void seteRole(String eRole) {
-        this.eRole = eRole;
-    }
-
-    /**
-     * 
-     */
     public String geteAvatarpath() {
         return eAvatarpath;
     }
 
-    /**
-     * 
-     */
     public void seteAvatarpath(String eAvatarpath) {
         this.eAvatarpath = eAvatarpath;
     }
 
-    /**
-     * 
-     */
     public Date geteCreatetime() {
         return eCreatetime;
     }
 
-    /**
-     * 
-     */
-    public void seteCreatetime(Timestamp eCreatetime) {
+    public void seteCreatetime(Date eCreatetime) {
         this.eCreatetime = eCreatetime;
     }
 
-    /**
-     * 
-     */
     public Date geteUpdatetime() {
         return eUpdatetime;
     }
 
-    /**
-     * 
-     */
-    public void seteUpdatetime(Timestamp eUpdatetime) {
+    public void seteUpdatetime(Date eUpdatetime) {
         this.eUpdatetime = eUpdatetime;
     }
 
-    /**
-     * 
-     */
     public Integer geteIsenabled() {
         return eIsenabled;
     }
 
-    /**
-     * 
-     */
     public void seteIsenabled(Integer eIsenabled) {
         this.eIsenabled = eIsenabled;
+    }
+
+    public Integer geteDeptid() {
+        return eDeptid;
+    }
+
+    public void seteDeptid(Integer eDeptid) {
+        this.eDeptid = eDeptid;
     }
 
     @Override
@@ -297,19 +168,17 @@ public class Emp implements Serializable {
         }
         Emp other = (Emp) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.geteId() == null ? other.geteId() == null : this.geteId().equals(other.geteId()))
-            && (this.geteUsername() == null ? other.geteUsername() == null : this.geteUsername().equals(other.geteUsername()))
-            && (this.getePassword() == null ? other.getePassword() == null : this.getePassword().equals(other.getePassword()))
-            && (this.geteName() == null ? other.geteName() == null : this.geteName().equals(other.geteName()))
-            && (this.geteGender() == null ? other.geteGender() == null : this.geteGender().equals(other.geteGender()))
-            && (this.geteAge() == null ? other.geteAge() == null : this.geteAge().equals(other.geteAge()))
-            && (this.getePhone() == null ? other.getePhone() == null : this.getePhone().equals(other.getePhone()))
-            && (this.geteDeptid() == null ? other.geteDeptid() == null : this.geteDeptid().equals(other.geteDeptid()))
-            && (this.geteRole() == null ? other.geteRole() == null : this.geteRole().equals(other.geteRole()))
-            && (this.geteAvatarpath() == null ? other.geteAvatarpath() == null : this.geteAvatarpath().equals(other.geteAvatarpath()))
-            && (this.geteCreatetime() == null ? other.geteCreatetime() == null : this.geteCreatetime().equals(other.geteCreatetime()))
-            && (this.geteUpdatetime() == null ? other.geteUpdatetime() == null : this.geteUpdatetime().equals(other.geteUpdatetime()))
-            && (this.geteIsenabled() == null ? other.geteIsenabled() == null : this.geteIsenabled().equals(other.geteIsenabled()));
+                && (this.geteId() == null ? other.geteId() == null : this.geteId().equals(other.geteId()))
+                && (this.geteUsername() == null ? other.geteUsername() == null : this.geteUsername().equals(other.geteUsername()))
+                && (this.getePassword() == null ? other.getePassword() == null : this.getePassword().equals(other.getePassword()))
+                && (this.geteName() == null ? other.geteName() == null : this.geteName().equals(other.geteName()))
+                && (this.geteGender() == null ? other.geteGender() == null : this.geteGender().equals(other.geteGender()))
+                && (this.geteAge() == null ? other.geteAge() == null : this.geteAge().equals(other.geteAge()))
+                && (this.getePhone() == null ? other.getePhone() == null : this.getePhone().equals(other.getePhone()))
+                && (this.geteAvatarpath() == null ? other.geteAvatarpath() == null : this.geteAvatarpath().equals(other.geteAvatarpath()))
+                && (this.geteCreatetime() == null ? other.geteCreatetime() == null : this.geteCreatetime().equals(other.geteCreatetime()))
+                && (this.geteUpdatetime() == null ? other.geteUpdatetime() == null : this.geteUpdatetime().equals(other.geteUpdatetime()))
+                && (this.geteIsenabled() == null ? other.geteIsenabled() == null : this.geteIsenabled().equals(other.geteIsenabled()));
     }
 
     @Override
@@ -324,8 +193,6 @@ public class Emp implements Serializable {
         result = prime * result + ((geteGender() == null) ? 0 : geteGender().hashCode());
         result = prime * result + ((geteAge() == null) ? 0 : geteAge().hashCode());
         result = prime * result + ((getePhone() == null) ? 0 : getePhone().hashCode());
-        result = prime * result + ((geteDeptid() == null) ? 0 : geteDeptid().hashCode());
-        result = prime * result + ((geteRole() == null) ? 0 : geteRole().hashCode());
         result = prime * result + ((geteAvatarpath() == null) ? 0 : geteAvatarpath().hashCode());
         result = prime * result + ((geteCreatetime() == null) ? 0 : geteCreatetime().hashCode());
         result = prime * result + ((geteUpdatetime() == null) ? 0 : geteUpdatetime().hashCode());
@@ -348,7 +215,6 @@ public class Emp implements Serializable {
         sb.append(", eAge=").append(eAge);
         sb.append(", ePhone=").append(ePhone);
         sb.append(", eDeptid=").append(eDeptid);
-        sb.append(", eRole=").append(eRole);
         sb.append(", eAvatarpath=").append(eAvatarpath);
         sb.append(", eCreatetime=").append(eCreatetime);
         sb.append(", eUpdatetime=").append(eUpdatetime);

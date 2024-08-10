@@ -8,8 +8,10 @@ import com.rs.service.EmpService;
 import com.rs.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,46 +29,37 @@ public class LoginController {
     @Autowired
     private EmpService empService;
 
+    // 账号密码登录
     @PostMapping
     public ResultResponse login(@RequestBody Emp emp) {
-        log.info("员工登录：{}", emp);
-        Emp e = empService.getEmp(emp);
-        if (e != null) {
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("id", e.getId());
-            claims.put("name", e.geteName());
-            claims.put("username", e.geteUsername());
-            claims.put("avatar", e.geteAvatarpath());
-            String jwt = JwtUtils.generateJwt(claims);
-            return ResultResponse.success(jwt);
+        log.info("账号密码登录：{}", emp);
+        String token = empService.login(emp);
+        if (token != null) {
+            return ResultResponse.success(token);
         } else {
             throw new BizException(ExceptionEnum.NOT_FOUND);
         }
     }
 
+    // 功能：1.自动登录 2.取得登录用户信息
     @PostMapping("/auto-login")
-    public ResultResponse autoLogin(@RequestParam String token) {
-        log.info("员工登录：{}", token);
-        try {
-            Map<String, Object> claims = JwtUtils.parseJwt(token);
-            String username = (String) claims.get("username");
-            Emp emp = new Emp();
-            emp.seteUsername(username);
-            Emp foundEmp = empService.getEmp(emp);
-            if (foundEmp != null) {
-                if (JwtUtils.validateToken(token)) {
-                    return ResultResponse.success(foundEmp);
-                } else {
-                    throw new BizException(ExceptionEnum.SIGNATURE_NOT_MATCH);
-                }
-            } else {
-                throw new BizException(ExceptionEnum.NOT_FOUND);
-            }
-        } catch (BizException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("自动登录失败：{}", e.getMessage(), e);
-            throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR);
+    public ResultResponse autoLogin(HttpServletRequest request) {
+        // 从请求头中获取 Authorization 参数
+        String token = request.getHeader("Authorization");
+
+        if (token == null || token.isEmpty()) {
+            throw new BizException(ExceptionEnum.NOT_FOUND);
+        }
+        String shortenedToken = token.length() > 10 ? token.substring(0, 5) + "***" + token.substring(token.length() - 5) : token;
+        log.info("自动登录：{}", shortenedToken);
+        UserDetails userDetails = empService.getEmpBytoken(token);
+
+        // 如果用户存在，返回用户信息
+        if (userDetails != null) {
+            return ResultResponse.success(userDetails);
+        } else {
+            throw new BizException(ExceptionEnum.NOT_FOUND);
         }
     }
+
 }
