@@ -15,4 +15,10 @@
         m_id,m_url,m_name,
         m_sign
     </sql>
+    <select id="selectMenuById" resultType="java.lang.String">
+        SELECT m.m_sign
+        FROM menu m
+                 JOIN role_menu rm ON m.m_id = rm.m_id
+        WHERE rm.r_id = #{rId};
+    </select>
 </mapper>

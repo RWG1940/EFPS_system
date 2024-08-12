@@ -9,146 +9,171 @@ import com.rs.domain.Emp;
 import com.rs.domain.vo.LoginUserDetail;
 import com.rs.domain.vo.PageBean;
 import com.rs.exception.pojo.BizException;
-import com.rs.mapper.EmpMenuMapper;
+import com.rs.exception.pojo.vo.ResultResponse;
+import com.rs.service.EmpRoleService;
 import com.rs.service.EmpService;
 import com.rs.mapper.EmpMapper;
+import com.rs.service.MenuService;
 import com.rs.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.rs.utils.TimeUtil;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
-* @author RWG
-* @description 针对表【emp】的数据库操作Service实现
-* @createDate 2024-07-26 17:17:57
-*/
+ * @author RWG
+ * @description 针对表【emp】的数据库操作Service实现
+ * @createDate 2024-07-26 17:17:57
+ */
 @Service
 public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
-    implements EmpService{
+        implements EmpService {
 
     @Autowired
     private EmpMapper empMapper;
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Override
-    public List<Emp> getAllEmps() {
-        return empMapper.getAllEmps();
-    }
     @Autowired
     private TimeUtil timeUtil;
     @Autowired
-    private EmpMenuMapper menuEmpMapper;
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmpRoleService empRoleService;
+    @Autowired
+    private MenuService menuService;
 
     @Override
-    public int createEmp(Emp emp) {
-        emp.seteCreatetime(timeUtil.getCurrentTimestamp());
+    public ResultResponse getAllEmps() {
+        List<Emp> emps = empMapper.getAllEmps();
+        if (emps == null) {
+            return ResultResponse.error("没有找到任何员工");
+        }
+        return ResultResponse.success(emps);
+    }
+
+    @Override
+    public ResultResponse createEmp(Emp emp) {
+        ResultResponse resultResponse = register(emp);
+        if (!resultResponse.getCode().equals("1")) {
+            return ResultResponse.error("创建用户失败");
+        }
+        return ResultResponse.success();
+    }
+
+    @Override
+    public ResultResponse updateEmp(Emp emp) {
         emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
-        emp.seteIsenabled(0);
-        return empMapper.createEmp(emp);
+        if (empMapper.updateEmp(emp) == 0) {
+            return ResultResponse.error("更新用户失败");
+        }
+        return ResultResponse.success();
     }
 
     @Override
-    public int updateEmp(Emp emp) {
-        emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
-        return empMapper.updateEmp(emp);
+    public ResultResponse deleteEmp(Integer id) {
+        if (empMapper.deleteEmp(id) == 0) {
+            return ResultResponse.error("删除用户失败");
+        }
+        return ResultResponse.success();
     }
 
     @Override
-    public int deleteEmp(Integer id) {
-        return empMapper.deleteEmp(id);
+    public ResultResponse getEmp(Emp emp) {
+        Emp e = empMapper.getEmp(emp);
+        if (e == null) {
+            return ResultResponse.error("没有找到该员工");
+        }
+        return ResultResponse.success(e);
     }
 
     @Override
-    public Emp getEmp(Emp emp) {
-        return empMapper.getEmp(emp);
+    public ResultResponse getEmps(Emp emp) {
+        List<Emp> emps = empMapper.getEmps(emp);
+        if (emps == null) {
+            return ResultResponse.error("没有找到任何员工");
+        }
+        return ResultResponse.success(emps);
     }
 
     @Override
-    public List<Emp> getEmps(Emp emp) {
-        return empMapper.getEmps(emp);
-    }
-
-    @Override
-    public PageBean page(Integer page, Integer pageSize) {
-        PageHelper.startPage(page,pageSize);
+    public ResultResponse page(Integer page, Integer pageSize) {
+        PageHelper.startPage(page, pageSize);
         List<Emp> emplist = empMapper.getAllEmps();
         Page<Emp> p = (Page<Emp>) emplist;
-        return new PageBean(p.getTotal(),p.getResult());
+        PageBean pageBean = new PageBean(p.getTotal(), p.getResult());
+        return ResultResponse.success(pageBean);
     }
 
     @Override
-    public int deleteEmps(List<Integer> ids) {
-        return empMapper.deleteEmps(ids);
+    public ResultResponse deleteEmps(List<Integer> ids) {
+        if (empMapper.deleteEmps(ids) == 0) {
+            return ResultResponse.error("删除用户失败");
+        }
+        return ResultResponse.success();
     }
 
     @Override
-    public int deleteEmpBydid(Integer id) {
-        return empMapper.deleteEmpBydid(id);
-    }
-
-    @Override
-    public int deleteEmpsBydids(List<Integer> ids) {
-        return empMapper.deleteEmpsBydids(ids);
-    }
-
-    @Override
-    public List<DeptCount> findDeptIdCount() {
-        return empMapper.findDeptIdCount();
-    }
-
-    @Override
-//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public String login(Emp emp) {
+    public ResultResponse login(Emp emp) {
         // 创建认证对象
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(emp.geteUsername(),emp.getePassword());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(emp.geteUsername(), emp.getePassword());
         // 执行认证
         try {
             Authentication authenticate = authenticationManager.authenticate(authentication);
-            // 放入用户信息
+            // 获取认证成功后的用户信息
             LoginUserDetail loginUserDetail = (LoginUserDetail) authenticate.getPrincipal();
-            // 生成jwt 使用fastjson方法把对象转成字符串
-            String loginUserDetailString = JSON.toJSONString(loginUserDetail);
-            // 生成token
-            return JwtUtils.generateJwtFromJson(loginUserDetailString, null);
-        }catch (Exception e){
+            return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
+        } catch (Exception e) {
             throw new BizException("执行认证出错");
         }
     }
 
     @Override
-//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public UserDetails getEmpBytoken(String token) {
-        // 验证 Token
-        if (JwtUtils.validateToken(token)) {
-            // 从 Token 中提取用户名
-            String username = JwtUtils.getUsernameFromToken(token);
-            Emp emp = getEmp(new Emp(username));
-            if (emp != null) {
-                // 获取用户权限
-                List<String> permissions = getUserPermissions(emp.getId());
-                // 创建 UserDetails 对象
-                return new LoginUserDetail(emp,permissions);
-            }else{
-                // 抛出异常
-                throw new BizException("Token 有效，但是读取用户信息失败");
-            }
-        }else {
-            // 抛出异常
-            throw new BizException("Token 无效");
+    public ResultResponse register(Emp emp) {
+        // 查找用户是否已存在
+        if (empMapper.getEmp(new Emp(emp.geteUsername())) != null) {
+            return ResultResponse.error("用户已存在");
         }
+        // 加密密码
+        emp.setePassword(passwordEncoder.encode(emp.getePassword()));
+        // 插入数据
+        if (empMapper.createEmp(emp) != 1) {
+            return ResultResponse.error("注册失败");
+        }
+        // 重新构建emp实体 查找创建后的emp实体
+        Emp e = new Emp();
+        e.seteUsername(emp.geteUsername());
+        e.setePassword(emp.getePassword());
+        Emp new_e = empMapper.getEmp(e);
+        // 设置创建时间和更新时间
+        new_e.seteUpdatetime(timeUtil.getCurrentTimestamp());
+        new_e.seteCreatetime(timeUtil.getCurrentTimestamp());
+        updateEmp(new_e);
+        // 赋予初始角色 3普通用户
+        empRoleService.insertEmpRole(new_e.getId(), 3);
+        // 查找普通用户对应menu表中的权限id再查找普通用户的权限id对应的权限
+        List<String> roles = menuService.selectMenuById(3);
+        // 构建LoginUserDetail
+        LoginUserDetail loginUserDetail = new LoginUserDetail(emp, roles);
+        return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
     }
+
     @Override
-    // 获取用户的权限集合
-    public List<String> getUserPermissions(Integer empId) {
-        return menuEmpMapper.findPermissionsByEmpId(empId);
+    public ResultResponse loginByToken() {
+        // 从 SecurityContextHolder 获取当前用户信息
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 如果用户存在，返回最新的用户信息
+        if (userDetails != null) {
+            return ResultResponse.success(empMapper.getEmp(new Emp(userDetails.getUsername())));
+        } else {
+            return ResultResponse.error("找不到该用户");
+        }
     }
 }
 

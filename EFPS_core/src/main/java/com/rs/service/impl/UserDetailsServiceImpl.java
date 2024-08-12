@@ -4,16 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rs.domain.Emp;
 import com.rs.domain.vo.LoginUserDetail;
 import com.rs.exception.pojo.BizException;
-import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.mapper.EmpMapper;
-import com.rs.mapper.EmpMenuMapper;
+import com.rs.mapper.EmpRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private EmpMapper empMapper;
-    @Autowired
-    private EmpMenuMapper empMenuMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BizException("不存在该用户: " + username);
         }
         // 赋权
-        List<String> roles = empMenuMapper.findPermissionsByEmpId(emp.getId());
+        List<String> roles = empMapper.selectMenuById(emp.getId());
 
         return new LoginUserDetail(emp,roles);
     }

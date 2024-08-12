@@ -1,11 +1,11 @@
 package com.rs.controller;
 
 import com.rs.domain.Emp;
-import com.rs.domain.vo.PageBean;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,96 +20,66 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/emps")
-@CrossOrigin(origins = "*") // 允许所有请求源
 public class EmpController {
 
     @Autowired
     private EmpService empService;
 
     // 获取所有员工
+    @PreAuthorize("hasAuthority('emp')")
     @GetMapping
     public ResultResponse getAllEmps() {
-        log.info("Fetching all employees");
-        List<Emp> emps = empService.getAllEmps();
-        if (emps == null){
-            return ResultResponse.error("没有找到任何员工");
-        }
-        return ResultResponse.success(emps);
+        return empService.getAllEmps();
     }
 
     //按条件获取员工列表
+    @PreAuthorize("hasAuthority('emp')")
     @PostMapping("/search")
     public ResultResponse getEmps(@RequestBody Emp emp) {
-        log.info("Fetching employees by condition");
-        List<Emp> emps = empService.getEmps(emp);
-        if (emps == null){
-            return ResultResponse.error("没有找到任何员工");
-        }
-        return ResultResponse.success(emps);
+        return empService.getEmps(emp);
     }
 
     //获取分页数据
+    @PreAuthorize("hasAuthority('emp')")
     @GetMapping("/pages")
     public ResultResponse getPages(@RequestParam Integer page,
                            @RequestParam Integer pageSize) {
-        log.info("Fetching employees pages 参数page：{}，pageSize：{}",page,pageSize);
-        PageBean pagebean = empService.page(page,pageSize);
-        if (pagebean == null){
-            return ResultResponse.error("没有找到任何员工");
-        }
-        return ResultResponse.success(pagebean);
+        return empService.page(page,pageSize);
     }
 
     // 获取指定字段的员工
+    @PreAuthorize("hasAuthority('emp')")
     @PostMapping("/emp")
     public ResultResponse getEmpById(@RequestBody Emp emp) {
-        log.info("Fetching employee with : {}", emp);
-        Emp e = empService.getEmp(emp);
-        if (e == null){
-            return ResultResponse.error("没有找到任何员工");
-        }
-        return ResultResponse.success(e);
+        return empService.getEmp(emp);
     }
 
     // 创建新员工
     @PostMapping
+    @PreAuthorize("hasAuthority('emp')")
     public ResultResponse createEmp(@RequestBody Emp emp) {
-        log.info("Creating new employee: {}", emp);
-
-        if (empService.createEmp(emp) == 0){
-            return ResultResponse.error("创建失败");
-        }
-        return ResultResponse.success();
+        return empService.createEmp(emp);
     }
 
     // 更新员工信息
     @PutMapping("/{id}")
-    public ResultResponse updateEmp(@PathVariable Integer id, @RequestBody Emp emp) {
-        log.info("Updating employee with ID: {}", id);
-        if (empService.updateEmp(emp) == 0){
-            return ResultResponse.error("更新失败");
-        }
-        return ResultResponse.success();
+    @PreAuthorize("hasAuthority('emp')")
+    public ResultResponse updateEmp(@RequestBody Emp emp) {
+        return empService.updateEmp(emp);
     }
 
     // 删除指定 ID 的员工
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('emp')")
     public ResultResponse deleteEmp(@PathVariable Integer id) {
-        log.info("Deleting employee with ID: {}", id);
-        if (empService.deleteEmp(id) == 0){
-            return ResultResponse.error("删除失败");
-        }
-        return ResultResponse.success();
+        return empService.deleteEmp(id);
     }
 
     // 删除员工合集
     @DeleteMapping("/batch")
+    @PreAuthorize("hasAuthority('emp')")
     public ResultResponse deleteEmps(@RequestParam List<Integer> ids) {
-        log.info("Deleting employees with IDs: {}", ids);
-        if (empService.deleteEmps(ids) == 0){
-            return ResultResponse.error("删除失败");
-        }
-        return ResultResponse.success();
+        return empService.deleteEmps(ids);
     }
 
 }

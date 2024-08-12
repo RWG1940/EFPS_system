@@ -5,6 +5,7 @@ import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.exception.pojo.vo.ResultResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +45,13 @@ public class GlobalExceptionHandler {
     public ResultResponse exceptionHandler(HttpServletRequest req, Exception e) {
         logger.error("未知异常！原因是:", e);
         return ResultResponse.error(ExceptionEnum.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    @ResponseBody
+    public ResultResponse handleAccessDeniedException(HttpServletRequest req, AccessDeniedException e) {
+        logger.error("权限不足！原因是:", e);
+        return ResultResponse.error("403", "权限不足，无法访问");
     }
 }
 

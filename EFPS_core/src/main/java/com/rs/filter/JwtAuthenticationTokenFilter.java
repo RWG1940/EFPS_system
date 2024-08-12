@@ -42,12 +42,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 获取 token
-        String token = request.getHeader("Authorization");
-        if (!StringUtils.hasText(token)) {
-            throw new BizException("过滤器拦截到token为空");
+        // 从请求头中获取 Authorization 参数
+        String authHeader = request.getHeader("Authorization");
+        // 检查 Authorization 头是否存在并以 "Bearer " 开头
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new BizException("过滤器中Authorization参数为空");
         }
-
+        // 去除 "Bearer " 前缀，得到实际的 token
+        String token = authHeader.substring(7);
         LoginUserDetail loginUserDetail;
         try {
             // 解析 token

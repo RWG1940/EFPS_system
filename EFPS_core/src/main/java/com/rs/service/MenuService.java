@@ -3,6 +3,8 @@ package com.rs.service;
 import com.rs.domain.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
 * @author RWG
 * @description 针对表【menu】的数据库操作Service
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface MenuService extends IService<Menu> {
 
+    List<String> selectMenuById(int i);
 }

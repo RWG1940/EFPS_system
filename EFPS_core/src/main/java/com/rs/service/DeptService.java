@@ -3,6 +3,7 @@ package com.rs.service;
 import com.rs.domain.Dept;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rs.domain.vo.PageBean;
+import com.rs.exception.pojo.vo.ResultResponse;
 
 import java.util.List;
 
@@ -13,21 +14,21 @@ import java.util.List;
 */
 public interface DeptService extends IService<Dept> {
 
-    List<Dept> getAllDepts();
+    ResultResponse getAllDepts();
 
-    List<Dept> getDepts(Dept dept);
+    ResultResponse getDepts(Dept dept);
 
     PageBean page(Integer page, Integer pageSize);
 
-    Dept getDept(Dept dept);
+    ResultResponse getDept(Dept dept);
 
-    int createDept(Dept dept);
+    ResultResponse createDept(Dept dept);
 
-    int updateDept(Dept dept);
+    ResultResponse updateDept(Dept dept);
 
-    int deleteDept(Integer id);
+    ResultResponse deleteDept(Integer id);
 
-    int deleteDepts(List<Integer> ids);
+    ResultResponse deleteDepts(List<Integer> ids);
 
-    PageBean getPages(Integer page, Integer pageSize, String token);
+    ResultResponse getPages(Integer page, Integer pageSize);
 }

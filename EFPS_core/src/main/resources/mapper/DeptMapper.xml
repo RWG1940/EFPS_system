@@ -97,4 +97,13 @@
            </if>
         </where>
     </select>
+    <select id="findDeptIdCount" resultType="com.rs.domain.vo.DeptCount">
+        SELECT
+            e_deptid,
+            COUNT(e_id) AS d_total
+        FROM
+            emp
+        GROUP BY
+            e_deptid
+    </select>
 </mapper>

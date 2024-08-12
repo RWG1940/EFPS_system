@@ -38,12 +38,7 @@ public interface EmpMapper extends BaseMapper<Emp> {
    // 批量删除员工
     int deleteEmps(List<Integer> ids);
 
-    @Delete("DELETE FROM emp WHERE e_deptid = #{e_deptid}")
-    int deleteEmpBydid(Integer e_deptid);
-
-    int deleteEmpsBydids(List<Integer> ids);
-
-    List<DeptCount> findDeptIdCount();
+    List<String> selectMenuById(Integer id);
 }
 
 

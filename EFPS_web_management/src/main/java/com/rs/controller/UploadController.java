@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
 public class UploadController {
     @Autowired
     private YunOSS yunOSS;
@@ -36,9 +35,7 @@ public class UploadController {
 //    }
     @PostMapping("/upload")
     public ResultResponse upload(@RequestParam("file") MultipartFile image) throws Exception {
-        log.info("文件上传{}", image.getOriginalFilename());
         String url = yunOSS.upload(image);
-        log.info("文件上传完成，文件访问的url：{}",url);
         return ResultResponse.success(url);
     }
 }

@@ -92,13 +92,6 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEmpsBydids">
-        DELETE FROM emp WHERE e_deptid in
-        <foreach collection="ids" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </delete>
-
     <select id="getEmp" parameterType="com.rs.domain.Emp" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
@@ -194,14 +187,12 @@
         </where>
     </select>
 
-    <select id="findDeptIdCount" resultType="com.rs.domain.vo.DeptCount">
-        SELECT
-            e_deptid,
-            COUNT(e_id) AS d_total
-        FROM
-            emp
-        GROUP BY
-            e_deptid
+    <select id="selectMenuById" resultType="java.lang.String">
+        SELECT m_sign
+        FROM menu m
+                 JOIN role_menu rm ON m.m_id = rm.m_id
+                 JOIN emp_role er ON rm.r_id = er.r_id
+        WHERE er.e_id = #{eId}
     </select>
 
 </mapper>
