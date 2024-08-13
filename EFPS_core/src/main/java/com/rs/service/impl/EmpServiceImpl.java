@@ -2,14 +2,14 @@ package com.rs.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.rs.domain.vo.DeptCount;
-import com.rs.domain.Emp;
-import com.rs.domain.vo.LoginUserDetail;
-import com.rs.domain.vo.PageBean;
+import com.github.pagehelper.PageInfo;
+import com.rs.domain.*;
+import com.rs.domain.vo.EmpRoleDeptDTO;
 import com.rs.exception.pojo.BizException;
 import com.rs.exception.pojo.vo.ResultResponse;
+import com.rs.mapper.DeptMapper;
+import com.rs.mapper.RoleMapper;
 import com.rs.service.EmpRoleService;
 import com.rs.service.EmpService;
 import com.rs.mapper.EmpMapper;
@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.rs.utils.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +49,10 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     private EmpRoleService empRoleService;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private DeptMapper deptMapper;
 
     @Override
     public ResultResponse getAllEmps() {
@@ -59,19 +64,51 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     }
 
     @Override
-    public ResultResponse createEmp(Emp emp) {
-        ResultResponse resultResponse = register(emp);
-        if (!resultResponse.getCode().equals("1")) {
-            return ResultResponse.error("创建用户失败");
+    public ResultResponse createEmp(EmpRoleDeptDTO empRoleDeptDTO) {
+        Emp emp = empRoleDeptDTO.getEmp();
+        System.out.println(empRoleDeptDTO);
+        // 查找用户是否已存在
+        if (empMapper.getEmp(new Emp(emp.geteUsername())) != null) {
+            return ResultResponse.error("用户已存在");
         }
-        return ResultResponse.success();
+        // 加密密码
+        emp.setePassword(passwordEncoder.encode(emp.getePassword()));
+        // 插入数据
+        if (empMapper.createEmp(emp) != 1) {
+            return ResultResponse.error("注册失败");
+        }
+        // 重新构建emp实体 查找创建后的emp实体
+        Emp e = new Emp();
+        e.seteUsername(emp.geteUsername());
+        e.setePassword(emp.getePassword());
+        Emp new_e = empMapper.getEmp(e);
+        // 设置创建时间和更新时间
+        new_e.seteUpdatetime(timeUtil.getCurrentTimestamp());
+        new_e.seteCreatetime(timeUtil.getCurrentTimestamp());
+        empMapper.updateEmp(new_e);
+        // 赋予初始角色
+        empRoleService.insertEmpRole(new_e.getId(), empRoleDeptDTO.getRole().getrId());
+        // 查找普通用户对应menu表中的权限id再查找普通用户的权限id对应的权限
+        List<String> roles = menuService.selectMenuById(empRoleDeptDTO.getRole().getrId());
+        // 构建LoginUserDetail
+        LoginUserDetail loginUserDetail = new LoginUserDetail(emp, roles);
+        return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
     }
 
     @Override
-    public ResultResponse updateEmp(Emp emp) {
+    public ResultResponse updateEmp(EmpRoleDeptDTO empRoleDeptDTO) {
+        Emp emp = empRoleDeptDTO.getEmp();
+        if (emp.getePassword() != null){
+            emp.setePassword(passwordEncoder.encode(emp.getePassword()));
+        }
         emp.seteUpdatetime(timeUtil.getCurrentTimestamp());
-        if (empMapper.updateEmp(emp) == 0) {
+        // 更新员工
+        if (empMapper.updateEmp(emp) == 0 ){
             return ResultResponse.error("更新用户失败");
+        }
+        // 更新角色
+        if (empRoleDeptDTO.getRole().getrId() != null) {
+            empRoleService.updateEmpRole(emp.getId(),empRoleDeptDTO.getRole().getrId());
         }
         return ResultResponse.success();
     }
@@ -99,18 +136,31 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         if (emps == null) {
             return ResultResponse.error("没有找到任何员工");
         }
-        return ResultResponse.success(emps);
+        List<EmpRoleDeptDTO> empRoleDTOs = new ArrayList<>();
+        for (Emp e : emps) {
+            empRoleDTOs.add(new EmpRoleDeptDTO(e, roleMapper.findRoleByEmpId(e.getId()),deptMapper.getDept(new Dept(e.geteDeptid()))));
+        }
+        return ResultResponse.success(empRoleDTOs);
     }
 
     @Override
     public ResultResponse page(Integer page, Integer pageSize) {
+        // 开始分页
         PageHelper.startPage(page, pageSize);
-        List<Emp> emplist = empMapper.getAllEmps();
-        Page<Emp> p = (Page<Emp>) emplist;
-        PageBean pageBean = new PageBean(p.getTotal(), p.getResult());
-        return ResultResponse.success(pageBean);
+        // 查询所有员工
+        List<Emp> emps = empMapper.getAllEmps();
+        // 创建 PageInfo 对象来获取分页信息
+        PageInfo<Emp> pageInfo = new PageInfo<>(emps);
+        // 构建包含员工和角色的 DTO 列表
+        List<EmpRoleDeptDTO> empRoleDTOs = new ArrayList<>();
+        for (Emp emp : emps) {
+            empRoleDTOs.add(new EmpRoleDeptDTO(emp, roleMapper.findRoleByEmpId(emp.getId()),deptMapper.getDept(new Dept(emp.geteDeptid()))));
+        }
+        // 构建新的分页对象
+        PageInfo<EmpRoleDeptDTO> resultPage = new PageInfo<>(empRoleDTOs);
+        resultPage.setTotal(pageInfo.getTotal());
+        return ResultResponse.success(new PageBean(resultPage.getTotal(), resultPage.getList()));
     }
-
     @Override
     public ResultResponse deleteEmps(List<Integer> ids) {
         if (empMapper.deleteEmps(ids) == 0) {
@@ -154,7 +204,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         // 设置创建时间和更新时间
         new_e.seteUpdatetime(timeUtil.getCurrentTimestamp());
         new_e.seteCreatetime(timeUtil.getCurrentTimestamp());
-        updateEmp(new_e);
+        empMapper.updateEmp(new_e);
         // 赋予初始角色 3普通用户
         empRoleService.insertEmpRole(new_e.getId(), 3);
         // 查找普通用户对应menu表中的权限id再查找普通用户的权限id对应的权限
@@ -170,7 +220,9 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 如果用户存在，返回最新的用户信息
         if (userDetails != null) {
-            return ResultResponse.success(empMapper.getEmp(new Emp(userDetails.getUsername())));
+            Role role = roleMapper.findRoleByEmpId(empMapper.getEmp(new Emp(userDetails.getUsername())).getId());
+            Dept dept = deptMapper.getDept(new Dept(empMapper.getEmp(new Emp(userDetails.getUsername())).geteDeptid()));
+            return ResultResponse.success(new EmpRoleDeptDTO(empMapper.getEmp(new Emp(userDetails.getUsername())),role,dept));
         } else {
             return ResultResponse.error("找不到该用户");
         }

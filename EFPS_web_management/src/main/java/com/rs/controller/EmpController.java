@@ -1,6 +1,7 @@
 package com.rs.controller;
 
 import com.rs.domain.Emp;
+import com.rs.domain.vo.EmpRoleDeptDTO;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,15 +58,15 @@ public class EmpController {
     // 创建新员工
     @PostMapping
     @PreAuthorize("hasAuthority('emp')")
-    public ResultResponse createEmp(@RequestBody Emp emp) {
-        return empService.createEmp(emp);
+    public ResultResponse createEmp(@RequestBody EmpRoleDeptDTO empRoleDeptDTO) {
+        return empService.createEmp(empRoleDeptDTO);
     }
 
     // 更新员工信息
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('emp')")
-    public ResultResponse updateEmp(@RequestBody Emp emp) {
-        return empService.updateEmp(emp);
+    public ResultResponse updateEmp(@RequestBody EmpRoleDeptDTO empRoleDeptDTO) {
+        return empService.updateEmp(empRoleDeptDTO);
     }
 
     // 删除指定 ID 的员工

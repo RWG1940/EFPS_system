@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.Date;
  * 
  * @TableName dept
  */
+@NoArgsConstructor
 @TableName(value ="dept")
 public class Dept implements Serializable {
     /**
@@ -48,6 +51,10 @@ public class Dept implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+    public Dept(Integer Deptid) {
+        this.id = Deptid;
+    }
+
     /**
      * 
      */
@@ -56,7 +63,7 @@ public class Dept implements Serializable {
     }
 
     /**
-     * 
+     *
      */
     public void setId(Integer id) {
         this.id = id;

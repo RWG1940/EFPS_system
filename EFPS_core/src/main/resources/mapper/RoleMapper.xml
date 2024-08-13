@@ -13,4 +13,7 @@
     <sql id="Base_Column_List">
         r_id,r_name,r_info
     </sql>
+    <select id="findRoleByEmpId" resultType="com.rs.domain.Role">
+        select * from role where r_id in (select r_id from emp_role where e_id = #{empId})
+    </select>
 </mapper>

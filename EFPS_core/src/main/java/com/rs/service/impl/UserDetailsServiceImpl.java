@@ -2,10 +2,9 @@ package com.rs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rs.domain.Emp;
-import com.rs.domain.vo.LoginUserDetail;
+import com.rs.domain.LoginUserDetail;
 import com.rs.exception.pojo.BizException;
 import com.rs.mapper.EmpMapper;
-import com.rs.mapper.EmpRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.rs.domain.vo;
+package com.rs.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;

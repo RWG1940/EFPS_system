@@ -1,18 +1,14 @@
 package com.rs.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.rs.domain.vo.LoginUserDetail;
-import com.rs.exception.pojo.BaseErrorInfoInterface;
+import com.rs.domain.LoginUserDetail;
 import com.rs.exception.pojo.BizException;
-import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -37,7 +33,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
 
         // 如果是注册或登录请求，直接放行
-        if (uri.equals("/reg") || uri.equals("/login")) {
+        if (uri.equals("/reg") || uri.equals("/login") || uri.equals("/upload")) {
             filterChain.doFilter(request, response);
             return;
         }

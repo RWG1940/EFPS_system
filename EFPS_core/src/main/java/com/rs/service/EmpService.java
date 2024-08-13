@@ -1,11 +1,9 @@
 package com.rs.service;
 
-import com.rs.domain.vo.DeptCount;
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rs.domain.vo.PageBean;
+import com.rs.domain.vo.EmpRoleDeptDTO;
 import com.rs.exception.pojo.vo.ResultResponse;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -18,9 +16,9 @@ public interface EmpService extends IService<Emp> {
 
     ResultResponse getAllEmps();
 
-    ResultResponse createEmp(Emp emp);
+    ResultResponse createEmp(EmpRoleDeptDTO empRoleDeptDTO);
 
-    ResultResponse updateEmp(Emp emp);
+    ResultResponse updateEmp(EmpRoleDeptDTO empRoleDeptDTO);
 
     ResultResponse deleteEmp(Integer id);
 

@@ -2,7 +2,7 @@ package com.rs.mapper;
 
 import com.rs.domain.Dept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rs.domain.vo.DeptCount;
+import com.rs.domain.DeptCount;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -97,7 +97,7 @@
            </if>
         </where>
     </select>
-    <select id="findDeptIdCount" resultType="com.rs.domain.vo.DeptCount">
+    <select id="findDeptIdCount" resultType="com.rs.domain.DeptCount">
         SELECT
             e_deptid,
             COUNT(e_id) AS d_total

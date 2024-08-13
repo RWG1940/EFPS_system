@@ -1,7 +1,6 @@
 package com.rs.controller;
 
 import com.rs.domain.*;
-import com.rs.domain.vo.PageBean;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.DeptService;
 import lombok.extern.slf4j.Slf4j;

@@ -20,7 +20,7 @@
         <result property="eIsenabled" column="e_isEnabled" jdbcType="INTEGER"/>
     </resultMap>
 
-    <resultMap id="deptCountResultMap" type="com.rs.domain.vo.DeptCount">
+    <resultMap id="deptCountResultMap" type="com.rs.domain.DeptCount">
         <result property="eDeptId" column="e_deptid" />
         <result property="dTotal" column="d_total" javaType="int" />
     </resultMap>

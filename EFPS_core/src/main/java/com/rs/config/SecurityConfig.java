@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/reg"),
+                                new AntPathRequestMatcher("/upload"),
                                 new AntPathRequestMatcher("/auto-login")).permitAll() // 允许 /reg 路径未认证访问
                         .anyRequest().authenticated())
                 .cors().and()

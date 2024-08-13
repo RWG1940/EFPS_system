@@ -1,4 +1,4 @@
-package com.rs.domain.vo;
+package com.rs.domain;
 
 import lombok.Data;
 
