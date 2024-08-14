@@ -88,11 +88,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         empMapper.updateEmp(new_e);
         // 赋予初始角色
         empRoleService.insertEmpRole(new_e.getId(), empRoleDeptDTO.getRole().getrId());
-        // 查找普通用户对应menu表中的权限id再查找普通用户的权限id对应的权限
-        List<String> roles = menuService.selectMenuById(empRoleDeptDTO.getRole().getrId());
-        // 构建LoginUserDetail
-        LoginUserDetail loginUserDetail = new LoginUserDetail(emp, roles);
-        return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
+        return ResultResponse.success();
     }
 
     @Override
@@ -180,7 +176,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
             LoginUserDetail loginUserDetail = (LoginUserDetail) authenticate.getPrincipal();
             return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
         } catch (Exception e) {
-            throw new BizException("执行认证出错");
+            return ResultResponse.error("账号密码错误！");
         }
     }
 
@@ -192,6 +188,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         }
         // 加密密码
         emp.setePassword(passwordEncoder.encode(emp.getePassword()));
+        emp.seteDeptid(49);
         // 插入数据
         if (empMapper.createEmp(emp) != 1) {
             return ResultResponse.error("注册失败");
