@@ -3,6 +3,8 @@ package com.rs.controller;
 import com.rs.domain.Emp;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.EmpService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequestMapping("/login")
-
+@Api(tags = "登录控制器")
 public class LoginController {
     @Autowired
     private EmpService empService;
 
     // 账号密码登录
     @PostMapping
+    @ApiOperation("账号密码登录")
     public ResultResponse login(@RequestBody Emp emp) {
         log.info("账号密码登录：{}", emp);
         return empService.login(emp);
@@ -31,6 +34,7 @@ public class LoginController {
 
     // 功能：1.自动登录 2.取得登录用户信息
     @PostMapping("/auto-login")
+    @ApiOperation("token登录")
     public ResultResponse autoLogin() {
         log.info("token登录");
         return empService.loginByToken();

@@ -10,7 +10,7 @@ import com.rs.exception.pojo.ExceptionEnum;
  * @Description: 数据传输
  * @Author: RWG
  */
-public class ResultResponse {
+public class ResultResponse<T> {
 
         private String code;
 
@@ -18,7 +18,7 @@ public class ResultResponse {
         private String message;
 
 
-        private Object result;
+        private T result;
 
         public ResultResponse() {
         }
@@ -48,7 +48,7 @@ public class ResultResponse {
             return result;
         }
 
-        public void setResult(Object result) {
+        public void setResult(T result) {
             this.result = result;
         }
 

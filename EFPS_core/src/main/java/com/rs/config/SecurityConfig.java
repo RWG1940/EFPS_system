@@ -40,7 +40,20 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/reg"),
                                 new AntPathRequestMatcher("/upload"),
-                                new AntPathRequestMatcher("/auto-login")).permitAll() // 允许 /reg 路径未认证访问
+                                new AntPathRequestMatcher("/auto-login"),
+                                new AntPathRequestMatcher("/favicon.ico"),
+                                new AntPathRequestMatcher("/doc.html")
+                                , new AntPathRequestMatcher("/webjars/**")
+                                , new AntPathRequestMatcher("/swagger-resources")
+                                , new AntPathRequestMatcher("/v3/api-docs")
+                                , new AntPathRequestMatcher("/swagger-ui/**")
+                                , new AntPathRequestMatcher("/swagger-ui.html")
+                                , new AntPathRequestMatcher("/v2/api-docs")
+                                , new AntPathRequestMatcher("/v3/api-docs/**")
+                                , new AntPathRequestMatcher("/webjars/springfox-swagger-ui/**")
+                                , new AntPathRequestMatcher("/swagger-resources/**")
+
+                        ).permitAll() // 允许路径未认证访问
                         .anyRequest().authenticated())
                 .cors().and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

@@ -33,7 +33,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
 
         // 如果是注册或登录请求，直接放行
-        if (uri.equals("/reg") || uri.equals("/login") || uri.equals("/upload")) {
+        if (uri.equals("/reg") || uri.equals("/login") || uri.equals("/upload") || uri.equals("/webjars/**")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        // 放行 Swagger 和 Knife4j 相关路径
+        if (isSwaggerOrKnife4jPath(uri)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -62,5 +67,22 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         // 继续过滤链
         filterChain.doFilter(request, response);
+    }
+    /**
+     * 判断是否为 Swagger 或 Knife4j 相关路径
+     *
+     * @param uri 请求路径
+     * @return 是否为 Swagger 或 Knife4j 相关路径
+     */
+    private boolean isSwaggerOrKnife4jPath(String uri) {
+        return
+                uri.equals("/doc.html") ||
+                uri.equals("/favicon.ico") ||
+                uri.startsWith("/webjars/") ||
+                uri.equals("/swagger-resources") ||
+                uri.equals("/v2/api-docs") ||
+                uri.equals("/v3/api-docs") ||
+                uri.equals("/swagger-ui.html") ;
+
     }
 }

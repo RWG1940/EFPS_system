@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ import java.io.Serializable;
  * @TableName role
  */
 @TableName(value ="role")
+@ApiModel(value = "角色实体")
 public class Role implements Serializable {
     /**
      * 

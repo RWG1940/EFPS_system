@@ -3,6 +3,7 @@ package com.rs.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rs.domain.Emp;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@ApiModel(value = "登录用户详情实体")
 public class LoginUserDetail implements UserDetails {
     private List<String> list;
     private Emp emp;

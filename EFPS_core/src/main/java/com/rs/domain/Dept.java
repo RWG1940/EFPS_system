@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.util.Date;
  */
 @NoArgsConstructor
 @TableName(value ="dept")
+@ApiModel(value = "部门实体")
 public class Dept implements Serializable {
     /**
      * 

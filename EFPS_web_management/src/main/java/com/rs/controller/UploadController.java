@@ -2,6 +2,8 @@ package com.rs.controller;
 
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.utils.YunOSS;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @Slf4j
+@Api(tags = "文件上传控制器")
 public class UploadController {
     @Autowired
     private YunOSS yunOSS;
@@ -34,6 +37,7 @@ public class UploadController {
 //        return Result.success();
 //    }
     @PostMapping("/upload")
+    @ApiOperation("上传")
     public ResultResponse upload(@RequestParam("file") MultipartFile image) throws Exception {
         String url = yunOSS.upload(image);
         return ResultResponse.success(url);
