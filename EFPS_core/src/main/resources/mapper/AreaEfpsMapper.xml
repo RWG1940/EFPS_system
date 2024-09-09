@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.AreaEfpsMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.AreaEfps">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="a1" column="a1" jdbcType="VARCHAR"/>
+        <result property="b1" column="b1" jdbcType="VARCHAR"/>
+        <result property="c1" column="c1" jdbcType="VARCHAR"/>
+        <result property="d1" column="d1" jdbcType="VARCHAR"/>
+        <result property="e1" column="e1" jdbcType="VARCHAR"/>
+        <result property="fg1" column="fg1" jdbcType="VARCHAR"/>
+        <result property="h1" column="h1" jdbcType="VARCHAR"/>
+        <result property="a2" column="a2" jdbcType="VARCHAR"/>
+        <result property="b2" column="b2" jdbcType="VARCHAR"/>
+        <result property="c2" column="c2" jdbcType="VARCHAR"/>
+        <result property="a31" column="a31" jdbcType="VARCHAR"/>
+        <result property="a32" column="a32" jdbcType="VARCHAR"/>
+        <result property="a33" column="a33" jdbcType="VARCHAR"/>
+        <result property="a34" column="a34" jdbcType="VARCHAR"/>
+        <result property="a35" column="a35" jdbcType="VARCHAR"/>
+        <result property="a36" column="a36" jdbcType="VARCHAR"/>
+        <result property="b31" column="b31" jdbcType="VARCHAR"/>
+        <result property="b32" column="b32" jdbcType="VARCHAR"/>
+        <result property="b33" column="b33" jdbcType="VARCHAR"/>
+        <result property="b34" column="b34" jdbcType="VARCHAR"/>
+        <result property="b35" column="b35" jdbcType="VARCHAR"/>
+        <result property="b36" column="b36" jdbcType="VARCHAR"/>
+        <result property="a4" column="a4" jdbcType="VARCHAR"/>
+        <result property="b4" column="b4" jdbcType="VARCHAR"/>
+        <result property="c4" column="c4" jdbcType="VARCHAR"/>
+        <result property="m" column="m" jdbcType="VARCHAR"/>
+        <result property="e" column="e" jdbcType="VARCHAR"/>
+        <result property="a" column="a" jdbcType="VARCHAR"/>
+        <result property="i" column="i" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,status,type,
+        a1,b1,c1,
+        d1,e1,fg1,
+        h1,a2,b2,
+        c2,a31,a32,
+        a33,a34,a35,
+        a36,b31,b32,
+        b33,b34,b35,
+        b36,a4,b4,
+        c4,m,e,
+        a,i,createTime,
+        updateTime
+    </sql>
+    <insert id="addAreaEfps" parameterType="com.rs.domain.AreaEfps">
+        INSERT INTO area_efps
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="a != null">a,</if>
+            <if test="a1 != null">a1,</if>
+            <if test="a2 != null">a2,</if>
+            <if test="a31 != null">a31,</if>
+            <if test="a32 != null">a32,</if>
+            <if test="a33 != null">a33,</if>
+            <if test="a34 != null">a34,</if>
+            <if test="a35 != null">a35,</if>
+            <if test="a36 != null">a36,</if>
+            <if test="a4 != null">a4,</if>
+            <if test="b1 != null">b1,</if>
+            <if test="b2 != null">b2,</if>
+            <if test="b31 != null">b31,</if>
+            <if test="b32 != null">b32,</if>
+            <if test="b33 != null">b33,</if>
+            <if test="b34 != null">b34,</if>
+            <if test="b35 != null">b35,</if>
+            <if test="b36 != null">b36,</if>
+            <if test="b4 != null">b4,</if>
+            <if test="c1 != null">c1,</if>
+            <if test="c2 != null">c2,</if>
+            <if test="c4 != null">c4,</if>
+            <if test="createtime != null">createtime,</if>
+            <if test="d1 != null">d1,</if>
+            <if test="e != null">e,</if>
+            <if test="e1 != null">e1,</if>
+            <if test="fg1 != null">fg1,</if>
+            <if test="h1 != null">h1,</if>
+            <if test="i != null">i,</if>
+            <if test="m != null">m,</if>
+            <if test="status != null">status,</if>
+            <if test="type != null">type,</if>
+            <if test="updatetime != null">updateTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="a != null">#{a},</if>
+            <if test="a1 != null">#{a1},</if>
+            <if test="a2 != null">#{a2},</if>
+            <if test="a31 != null">#{a31},</if>
+            <if test="a32 != null">#{a32},</if>
+            <if test="a33 != null">#{a33},</if>
+            <if test="a34 != null">#{a34},</if>
+            <if test="a35 != null">#{a35},</if>
+            <if test="a36 != null">#{a36},</if>
+            <if test="a4 != null">#{a4},</if>
+            <if test="b1 != null">#{b1},</if>
+            <if test="b2 != null">#{b2},</if>
+            <if test="b31 != null">#{b31},</if>
+            <if test="b32 != null">#{b32},</if>
+            <if test="b33 != null">#{b33},</if>
+            <if test="b34 != null">#{b34},</if>
+            <if test="b35 != null">#{b35},</if>
+            <if test="b36 != null">#{b36},</if>
+            <if test="b4 != null">#{b4},</if>
+            <if test="c1 != null">#{c1},</if>
+            <if test="c2 != null">#{c2},</if>
+            <if test="c4 != null">#{c4},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="d1 != null">#{d1},</if>
+            <if test="e != null">#{e},</if>
+            <if test="e1 != null">#{e1},</if>
+            <if test="fg1 != null">#{fg1},</if>
+            <if test="h1 != null">#{h1},</if>
+            <if test="i != null">#{i},</if>
+            <if test="m != null">#{m},</if>
+            <if test="status != null">#{status},</if>
+            <if test="type != null">#{type},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAreaEfps" parameterType="com.rs.domain.AreaEfps">
+        update area_efps
+        <set>
+            <if test="a != null">a=#{a},</if>
+            <if test="a1 != null">a1=#{a1},</if>
+            <if test="a2 != null">a2=#{a2},</if>
+            <if test="a31 != null">a31=#{a31},</if>
+            <if test="a32 != null">a32=#{a32},</if>
+            <if test="a33 != null">a33=#{a33},</if>
+            <if test="a34 != null">a34=#{a34},</if>
+            <if test="a35 != null">a35=#{a35},</if>
+            <if test="a36 != null">a36=#{a36},</if>
+            <if test="a4 != null">a4=#{a4},</if>
+            <if test="b1 != null">b1=#{b1},</if>
+            <if test="b2 != null">b2=#{b2},</if>
+            <if test="b31 != null">b31=#{b31},</if>
+            <if test="b32 != null">b32=#{b32},</if>
+            <if test="b33 != null">b33=#{b33},</if>
+            <if test="b34 != null">b34=#{b34},</if>
+            <if test="b35 != null">b35=#{b35},</if>
+            <if test="b36 != null">b36=#{b36},</if>
+            <if test="b4 != null">b4=#{b4},</if>
+            <if test="c1 != null">c1=#{c1},</if>
+            <if test="c2 != null">c2=#{c2},</if>
+            <if test="c4 != null">c4=#{c4},</if>
+            <if test="createtime != null">createtime=#{createtime},</if>
+            <if test="d1 != null">d1=#{d1},</if>
+            <if test="e != null">e=#{e},</if>
+            <if test="e1 != null">e1=#{e1},</if>
+            <if test="fg1 != null">fg1=#{fg1},</if>
+            <if test="h1 != null">h1=#{h1},</if>
+            <if test="i != null">i=#{i},</if>
+            <if test="id != null">id=#{id},</if>
+            <if test="m != null">m=#{m},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="updatetime != null">updatetime=#{updatetime}</if>
+        </set>
+            where id=#{id}
+
+    </update>
+    <delete id="deleteAreaEfps">
+        delete from area_efps where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getAllAreaEfps" resultType="com.rs.domain.AreaEfps">
+        select * from area_efps
+    </select>
+    <select id="getAreaEfps" resultType="com.rs.domain.AreaEfps">
+        select * from area_efps
+        <where>
+            <if test="id != null">id=#{id}</if>
+            <if test="a != null">and a=#{a}</if>
+            <if test="a1 != null">and a1=#{a1}</if>
+            <if test="a2 != null">and a2=#{a2}</if>
+            <if test="a31 != null">and a31=#{a31}</if>
+            <if test="a32 != null">and a32=#{a32}</if>
+            <if test="a33 != null">and a33=#{a33}</if>
+            <if test="a34 != null">and a34=#{a34}</if>
+            <if test="a35 != null">and a35=#{a35}</if>
+            <if test="a36 != null">and a36=#{a36}</if>
+            <if test="a4 != null">and a4=#{a4}</if>
+            <if test="b1 != null">and b1=#{b1}</if>
+            <if test="b2 != null">and b2=#{b2}</if>
+            <if test="b31 != null">and b31=#{b31}</if>
+            <if test="b32 != null">and b32=#{b32}</if>
+            <if test="b33 != null">and b33=#{b33}</if>
+            <if test="b34 != null">and b34=#{b34}</if>
+            <if test="b35 != null">and b35=#{b35}</if>
+            <if test="b36 != null">and b36=#{b36}</if>
+            <if test="b4 != null">and b4=#{b4}</if>
+            <if test="c1 != null">and c1=#{c1}</if>
+            <if test="c2 != null">and c2=#{c2}</if>
+            <if test="c4 != null">and c4=#{c4}</if>
+            <if test="createtime != null">and createtime=#{createtime}</if>
+            <if test="d1 != null">and d1=#{d1}</if>
+            <if test="e != null">and e=#{e}</if>
+            <if test="e1 != null">and e1=#{e1}</if>
+            <if test="fg1 != null">and fg1=#{fg1}</if>
+            <if test="h1 != null">and h1=#{h1}</if>
+            <if test="i != null">and i=#{i}</if>
+            <if test="m != null">and m=#{m}</if>
+            <if test="status != null">and status=#{status}</if>
+            <if test="type != null">and type=#{type}</if>
+            <if test="updatetime != null">and updatetime=#{updatetime}</if>
+        </where>
+    </select>
+</mapper>

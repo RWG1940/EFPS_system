@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.AircraftsTrendsMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.AircraftsTrends">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="header" column="header" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="theme" column="theme" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,header,content,
+        createTime,updateTime,author,
+        theme,status
+    </sql>
+    <insert id="addAircraftsTrends" parameterType="com.rs.domain.AircraftsTrends">
+        INSERT INTO aircrafts_trends
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="header != null">header,</if>
+            <if test="content != null">content,</if>
+            <if test="createtime != null">createTime,</if>
+            <if test="updatetime != null">updateTime,</if>
+            <if test="author != null">author,</if>
+            <if test="theme != null">theme,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="header != null">#{header},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+            <if test="author != null">#{author},</if>
+            <if test="theme != null">#{theme},</if>
+            <if test="status != null">#{status},</if>
+
+        </trim>
+    </insert>
+
+    <update id="updateAircraftsTrends" parameterType="com.rs.domain.AircraftsTrends">
+        update aircrafts_trends
+        <set>
+            <if test="header != null">header=#{header},</if>
+            <if test="content != null">content=#{content},</if>
+            <if test="createtime != null">createTime=#{createtime},</if>
+            <if test="updatetime != null">updateTime=#{updatetime},</if>
+            <if test="author != null">author=#{author},</if>
+            <if test="theme != null">theme=#{theme},</if>
+            <if test="status != null">status=#{status},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteAircraftsTrends">
+        delete from aircrafts_trends where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="searchAircraftsTrends" resultType="com.rs.domain.AircraftsTrends">
+        select * from aircrafts_trends
+        <where>
+            <if test="id != null">id=#{id}</if>
+            <if test="header != null">and header=#{header}</if>
+            <if test="content != null">and content=#{content}</if>
+            <if test="createtime != null">and createtime=#{createtime}</if>
+            <if test="updatetime != null">and updatetime=#{updatetime}</if>
+            <if test="author != null">and author=#{author}</if>
+        </where>
+    </select>
+    <select id="getAllAircraftsTrends" resultType="com.rs.domain.AircraftsTrends">
+        select *
+        from aircrafts_trends order by id desc
+    </select>
+</mapper>
