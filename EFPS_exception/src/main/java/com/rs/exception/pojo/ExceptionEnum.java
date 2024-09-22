@@ -38,6 +38,7 @@ public enum ExceptionEnum implements BaseErrorInfoInterface {
     AUTHENTICATION_ERROR("6002", "认证失败!"),
     AUTHORIZATION_ERROR("6003", "授权失败!");
 
+
     private final String resultCode;
     private final String resultMsg;
 

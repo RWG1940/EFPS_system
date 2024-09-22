@@ -28,7 +28,6 @@ public class LoginController {
     @PostMapping
     @ApiOperation("账号密码登录")
     public ResultResponse login(@RequestBody Emp emp) {
-        log.info("账号密码登录：{}", emp);
         return empService.login(emp);
     }
 
@@ -36,8 +35,13 @@ public class LoginController {
     @PostMapping("/auto-login")
     @ApiOperation("token登录")
     public ResultResponse autoLogin() {
-        log.info("token登录");
         return empService.loginByToken();
+    }
+    // 退出登录
+    @PostMapping("/logout")
+    @ApiOperation("退出登录")
+    public ResultResponse logout() {
+        return empService.logout();
     }
 
 }

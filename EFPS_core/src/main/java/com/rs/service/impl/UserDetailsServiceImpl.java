@@ -14,29 +14,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @FileName: UserDetailsServiceImpl
- * @Date: 2024/8/7:22:08
- * @Description:
- * @Author: RWG
+ * @FileName: UserDetailsServiceImpl @Date: 2024/8/7:22:08 @Description: @Author: RWG
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private EmpMapper empMapper;
+  @Autowired private EmpMapper empMapper;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 连接数据库，根据用户名查询用户信息
-        QueryWrapper<Emp> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("e_username", username);
-        Emp emp = empMapper.selectOne(queryWrapper);
-        if (emp == null) {
-            throw new BizException("不存在该用户: " + username);
-        }
-        // 赋权
-        List<String> roles = empMapper.selectMenuById(emp.getId());
-
-        return new LoginUserDetail(emp,roles);
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    // 连接数据库，根据用户名查询用户信息
+    QueryWrapper<Emp> queryWrapper = new QueryWrapper<>();
+    queryWrapper.eq("e_username", username);
+    Emp emp = empMapper.selectOne(queryWrapper);
+    if (emp == null) {
+      throw new BizException("不存在该用户: " + username);
     }
+    // 赋权
+    List<String> roles = empMapper.selectMenuById(emp.getId());
+
+    return new LoginUserDetail(emp, roles);
+  }
 }

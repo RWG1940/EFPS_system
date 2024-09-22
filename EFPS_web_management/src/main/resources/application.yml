@@ -1,9 +1,19 @@
 spring:
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:mysql://localhost:3306/efps_system?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 194044
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      url: jdbc:mysql://${efps.datasource.host}:${efps.datasource.port}/${efps.datasource.database}?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: ${efps.datasource.username}
+      password: ${efps.datasource.password}
+      driver-class-name: ${efps.datasource.driver-class-name}
+  redis:
+    host: ${efps.redis.host}
+    port: ${efps.redis.port}
+    password: ${efps.redis.password}
+    database: ${efps.redis.database}
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

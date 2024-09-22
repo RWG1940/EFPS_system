@@ -3,6 +3,7 @@ package com.rs.exception.pojo.vo;
 import com.alibaba.fastjson.JSONObject;
 import com.rs.exception.pojo.BaseErrorInfoInterface;
 import com.rs.exception.pojo.ExceptionEnum;
+import lombok.Data;
 
 /**
  * @FileName: ResultResponse
@@ -10,6 +11,7 @@ import com.rs.exception.pojo.ExceptionEnum;
  * @Description: 数据传输
  * @Author: RWG
  */
+@Data
 public class ResultResponse<T> {
 
         private String code;
@@ -27,31 +29,6 @@ public class ResultResponse<T> {
             this.code = errorInfo.getResultCode();
             this.message = errorInfo.getResultMsg();
         }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Object getResult() {
-            return result;
-        }
-
-        public void setResult(T result) {
-            this.result = result;
-        }
-
 
         public static ResultResponse success() {
             return success(null);

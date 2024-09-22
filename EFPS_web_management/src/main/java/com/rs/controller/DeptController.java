@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 /**
  * @FileName: DeptController
  * @Date: 2024/8/4:14:26
@@ -50,7 +49,7 @@ public class DeptController {
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("获取分页数据")
     public ResultResponse getPages(@RequestParam Integer page,
-                           @RequestParam Integer pageSize) {
+                                   @RequestParam Integer pageSize) {
         return deptService.getPages(page, pageSize);
     }
 
@@ -96,3 +95,4 @@ public class DeptController {
     }
 
 }
+

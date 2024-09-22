@@ -3,6 +3,7 @@ package com.rs.filter;
 import com.alibaba.fastjson.JSON;
 import com.rs.domain.LoginUserDetail;
 import com.rs.exception.pojo.BizException;
+import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         // 检查 Authorization 头是否存在并以 "Bearer " 开头
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new BizException("过滤器中Authorization参数为空");
+            response.sendError(4001,"token不存在");
+            return;
         }
         // 去除 "Bearer " 前缀，得到实际的 token
         String token = authHeader.substring(7);
@@ -58,9 +60,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String loginUserString = claims.getSubject();
             loginUserDetail = JSON.parseObject(loginUserString,LoginUserDetail.class);
         } catch (Exception e) {
-            throw new BizException("过滤器中token解析失败");
+            // 为发送HTTP响应
+            response.sendError(401,"token解析失败");
+            return;
         }
-        log.warn("该用户拥有权限"+loginUserDetail.getAuthorities());
+        log.warn("用户名："+loginUserDetail.getEmp().geteName()+"，拥有权限"+loginUserDetail.getAuthorities()+"，当前正访问："+uri);
         // 将验证完的用户信息放入 SecurityContextHolder
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUserDetail, null, loginUserDetail.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

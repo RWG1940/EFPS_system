@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "用户信息和角色信息组合实体")
 public class EmpRoleDeptDTO {
     @ApiModelProperty(value = "员工信息")
@@ -25,9 +26,12 @@ public class EmpRoleDeptDTO {
     private Role role;
     @ApiModelProperty(value = "部门信息")
     private Dept dept;
+    @ApiModelProperty(value = "在线状态")
+    private int isOnline;
     public EmpRoleDeptDTO(Emp emp, Role role,Dept dept) {
         this.emp = emp;
         this.role = role;
         this.dept = dept;
+        this.isOnline = 0;
     }
 }

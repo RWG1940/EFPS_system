@@ -35,4 +35,6 @@ public interface EmpService extends IService<Emp> {
     ResultResponse register(Emp emp);
 
     ResultResponse loginByToken();
+
+    ResultResponse logout();
 }

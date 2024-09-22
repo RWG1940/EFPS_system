@@ -6,6 +6,8 @@ import com.github.pagehelper.PageHelper;
 import com.rs.domain.*;
 import com.rs.domain.DeptCount;
 import com.rs.domain.PageBean;
+import com.rs.exception.pojo.BizException;
+import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.utils.TimeUtil;
 import com.rs.service.DeptService;
@@ -31,14 +33,12 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
     private DeptMapper deptMapper;
     @Autowired
     private TimeUtil timeUtil;
-    @Autowired
-    private EmpServiceImpl empService;
 
     @Override
     public ResultResponse getAllDepts() {
         List<Dept> d = deptMapper.getAllDepts();
         if (d == null){
-            return ResultResponse.error("暂无数据");
+            throw new BizException(ExceptionEnum.NOT_FOUND,"暂无数据");
         }
         return ResultResponse.success(d);
     }
@@ -47,7 +47,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
     public ResultResponse getDepts(Dept dept) {
         List<Dept> d = deptMapper.getDepts(dept);
         if (d == null){
-            return ResultResponse.error("暂无数据");
+            throw new BizException(ExceptionEnum.NOT_FOUND,"暂无数据");
         }
         return ResultResponse.success(d);
     }
@@ -64,7 +64,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
     public ResultResponse getDept(Dept dept) {
         Dept d = deptMapper.getDept(dept);
         if (d == null){
-            return ResultResponse.error("暂无数据");
+            throw new BizException(ExceptionEnum.NOT_FOUND,"暂无数据");
         }
         return ResultResponse.success(d);
     }
@@ -75,7 +75,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
         dept.setdUpdatetime(timeUtil.getCurrentTimestamp());
         dept.setdCreatetime(timeUtil.getCurrentTimestamp());
         if (deptMapper.createDept(dept) == 0){
-            return ResultResponse.error("创建失败");
+            throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR,"创建失败");
         }
         return ResultResponse.success();
     }
@@ -84,7 +84,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
     public ResultResponse updateDept(Dept dept) {
         dept.setdUpdatetime(timeUtil.getCurrentTimestamp());
         if (deptMapper.updateDept(dept) == 0){
-            return ResultResponse.error("更新失败");
+            throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR,"更新失败");
         }
         return ResultResponse.success();
     }
@@ -92,7 +92,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
     @Override
     public ResultResponse deleteDept(Integer id) {
         if (deptMapper.deleteDept(id) == 0){
-            return ResultResponse.error("删除失败");
+            throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR,"删除失败");
         }
         return ResultResponse.success();
     }
@@ -100,7 +100,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
     @Override
     public ResultResponse deleteDepts(List<Integer> ids) {
         if (deptMapper.deleteDepts(ids) == 0){
-            return ResultResponse.error("删除失败");
+            throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR,"删除失败");
         }
         return ResultResponse.success();
     }
@@ -133,7 +133,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept>
         }
         PageBean pageBean = page(page, pageSize);
         if (pageBean == null){
-            return ResultResponse.error("没有找到任何部门信息");
+            throw new BizException(ExceptionEnum.NOT_FOUND,"暂无数据");
         }
         return ResultResponse.success(pageBean);
     }
