@@ -66,7 +66,16 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         if (emps == null) {
             throw new BizException(ExceptionEnum.NOT_FOUND,"没有找到任何员工");
         }
-        return ResultResponse.success(emps);
+        List<EmpRoleDeptDTO> empRoleDTOs = new ArrayList<>();
+        for (Emp e : emps) {
+            int isOnline = 0;
+            Object ie = redisTemplate.opsForValue().get(e.geteUsername());
+            if (ie  != null) {
+                isOnline = (int)ie;
+            }
+            empRoleDTOs.add(new EmpRoleDeptDTO(e, roleMapper.findRoleByEmpId(e.getId()), deptMapper.getDept(new Dept(e.geteDeptid())), isOnline));
+        }
+        return ResultResponse.success(empRoleDTOs);
     }
 
     @Override

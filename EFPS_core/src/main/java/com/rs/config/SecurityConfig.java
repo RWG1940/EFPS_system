@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/reg"),
                                 new AntPathRequestMatcher("/upload"),
                                 new AntPathRequestMatcher("/auto-login"),
+                                new AntPathRequestMatcher("/route"),
                                 new AntPathRequestMatcher("/favicon.ico"),
                                 new AntPathRequestMatcher("/doc.html")
                                 , new AntPathRequestMatcher("/webjars/**")

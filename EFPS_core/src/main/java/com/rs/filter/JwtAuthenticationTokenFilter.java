@@ -34,7 +34,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
 
         // 如果是注册或登录请求，直接放行
-        if (uri.equals("/reg") || uri.equals("/login") || uri.equals("/upload") || uri.equals("/webjars/**")) {
+        if (uri.equals("/reg") || uri.equals("/login") || uri.equals("/upload") || uri.equals("/webjars/**") || uri.equals("/route")) {
             filterChain.doFilter(request, response);
             return;
         }
