@@ -27,7 +27,6 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
-    // 获取所有部门数据
     @GetMapping
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("获取所有部门数据")
@@ -35,16 +34,13 @@ public class DeptController {
         return deptService.getAllDepts();
     }
 
-    //按条件获取部门列表
     @PostMapping("/search")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("按条件获取部门列表")
     public ResultResponse getDepts(@RequestBody Dept dept) {
-
         return deptService.getDepts(dept);
     }
 
-    //获取分页数据
     @GetMapping("/pages")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("获取分页数据")
@@ -53,8 +49,6 @@ public class DeptController {
         return deptService.getPages(page, pageSize);
     }
 
-
-    // 获取指定字段的部门
     @PostMapping("/dept")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("获取指定字段的部门")
@@ -62,7 +56,6 @@ public class DeptController {
         return deptService.getDept(dept);
     }
 
-    // 创建新部门
     @PostMapping
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("创建新部门")
@@ -70,15 +63,14 @@ public class DeptController {
         return deptService.createDept(dept);
     }
 
-    // 更新部门信息
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("更新部门信息")
     public ResultResponse updateDept(@RequestBody Dept dept) {
+        log.info("dept:{}",dept);
         return deptService.updateDept(dept);
     }
 
-    // 删除指定 ID 的部门
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("删除指定 ID 的部门")
@@ -86,7 +78,6 @@ public class DeptController {
         return deptService.deleteDept(id);
     }
 
-    // 删除部门合集
     @DeleteMapping("/batch")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("删除部门合集")

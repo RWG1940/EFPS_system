@@ -2,6 +2,7 @@ package com.rs.service;
 
 import com.rs.domain.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rs.exception.pojo.vo.ResultResponse;
 
 /**
 * @author RWG
@@ -10,4 +11,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface RoleService extends IService<Role> {
 
+
+    ResultResponse getAllRoles();
+
+    ResultResponse addRole(Role role);
+
+    ResultResponse deleteRole(Integer id);
+
+    ResultResponse updateRole(Role role);
 }

@@ -132,14 +132,6 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         return ResultResponse.success();
     }
 
-    @Override
-    public ResultResponse getEmp(Emp emp) {
-        Emp e = empMapper.getEmp(emp);
-        if (e == null) {
-            throw new BizException(ExceptionEnum.NOT_FOUND,"没有找到该员工");
-        }
-        return ResultResponse.success(e);
-    }
 
     @Override
     public ResultResponse getEmps(Emp emp) {

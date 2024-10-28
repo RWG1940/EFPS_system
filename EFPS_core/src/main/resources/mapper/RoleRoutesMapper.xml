@@ -13,6 +13,12 @@
     <sql id="Base_Column_List">
         id,r_id,ro_id
     </sql>
+    <insert id="insertBatch">
+        insert into role_routes (r_id,ro_id) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.rId},#{item.roId})
+        </foreach>
+    </insert>
     <select id="getRouteIdsByRoleId" resultType="java.lang.Integer">
         select ro_id from role_routes where r_id = #{getrId}
     </select>

@@ -29,7 +29,6 @@ public class EmpController {
     @Autowired
     private EmpService empService;
 
-    // 获取所有员工
     @PreAuthorize("hasAuthority('emp')")
     @GetMapping
     @ApiOperation("获取所有员工")
@@ -37,15 +36,6 @@ public class EmpController {
         return empService.getAllEmps();
     }
 
-    //按条件获取员工列表
-    @PreAuthorize("hasAuthority('emp')")
-    @PostMapping("/search")
-    @ApiOperation("按条件获取员工列表")
-    public ResultResponse getEmps(@RequestBody Emp emp) {
-        return empService.getEmps(emp);
-    }
-
-    //获取分页数据
     @PreAuthorize("hasAuthority('emp')")
     @GetMapping("/pages")
     @ApiOperation("获取分页数据")
@@ -54,15 +44,13 @@ public class EmpController {
         return empService.page(page,pageSize);
     }
 
-    // 获取指定字段的员工
     @PreAuthorize("hasAuthority('emp')")
-    @PostMapping("/emp")
+    @PostMapping("/search")
     @ApiOperation("获取指定字段的员工")
-    public ResultResponse getEmpById(@RequestBody Emp emp) {
-        return empService.getEmp(emp);
+    public ResultResponse getEmps(@RequestBody EmpRoleDeptDTO empRoleDeptDTO) {
+        return empService.getEmps(empRoleDeptDTO.getEmp());
     }
 
-    // 创建新员工
     @PostMapping
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("创建新员工")
@@ -70,7 +58,6 @@ public class EmpController {
         return empService.createEmp(empRoleDeptDTO);
     }
 
-    // 更新员工信息
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("更新员工信息")
@@ -78,7 +65,6 @@ public class EmpController {
         return empService.updateEmp(empRoleDeptDTO);
     }
 
-    // 删除指定 ID 的员工
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("删除指定 ID 的员工")
@@ -86,7 +72,6 @@ public class EmpController {
         return empService.deleteEmp(id);
     }
 
-    // 删除员工合集
     @DeleteMapping("/batch")
     @PreAuthorize("hasAuthority('emp')")
     @ApiOperation("删除员工合集")

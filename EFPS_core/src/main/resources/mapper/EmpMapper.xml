@@ -21,8 +21,8 @@
     </resultMap>
 
     <resultMap id="deptCountResultMap" type="com.rs.domain.DeptCount">
-        <result property="eDeptId" column="e_deptid" />
-        <result property="dTotal" column="d_total" javaType="int" />
+        <result property="eDeptId" column="e_deptid"/>
+        <result property="dTotal" column="d_total" javaType="int"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -94,7 +94,7 @@
 
     <select id="getEmp" parameterType="com.rs.domain.Emp" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         FROM emp
         <where>
             <if test="id != null">
@@ -140,25 +140,33 @@
 
     </select>
 
+
+    <select id="selectMenuById" resultType="java.lang.String">
+        SELECT m_sign
+        FROM menu m
+                 JOIN role_menu rm ON m.m_id = rm.m_id
+                 JOIN emp_role er ON rm.r_id = er.r_id
+        WHERE er.e_id = #{eId}
+    </select>
     <select id="getEmps" resultType="com.rs.domain.Emp">
         SELECT
-        *
+        <include refid="Base_Column_List"/>
         FROM emp
         <where>
             <if test="id != null">
-                AND id = #{id}
+                AND id  LIKE concat('%',#{id},'%')
             </if>
             <if test="eId != null">
-                AND e_id = #{eId}
+                AND e_id LIKE concat('%',#{eId},'%')
             </if>
             <if test="eUsername != null">
-                AND e_username = #{eUsername}
+                AND e_username LIKE concat('%',#{eUsername},'%')
             </if>
             <if test="ePassword != null">
-                AND e_password = #{ePassword}
+                AND e_password LIKE concat('%',#{ePassword},'%')
             </if>
             <if test="eName != null">
-                AND e_name = #{eName}
+                AND e_name LIKE concat('%',#{eName},'%')
             </if>
             <if test="eGender != null">
                 AND e_gender = #{eGender}
@@ -167,15 +175,15 @@
                 AND e_age = #{eAge}
             </if>
             <if test="ePhone != null">
-                AND e_phone = #{ePhone}
+                AND e_phone LIKE concat('%',#{ePhone},'%')
             </if>
             <if test="eDeptid != null">
                 AND e_deptid = #{eDeptid}
             </if>
             <if test="eAvatarpath != null">
-                AND e_avatarpath = #{eAvatarpath}
+                AND e_avatarpath LIKE concat('%',#{eAvatarpath},'%')
             </if>
-            <if test="eCreatetime !=null">
+            <if test="eCreatetime != null">
                 AND e_createtime = #{eCreatetime}
             </if>
             <if test="eUpdatetime != null">
@@ -185,14 +193,6 @@
                 AND e_isEnabled = #{eIsenabled}
             </if>
         </where>
-    </select>
-
-    <select id="selectMenuById" resultType="java.lang.String">
-        SELECT m_sign
-        FROM menu m
-                 JOIN role_menu rm ON m.m_id = rm.m_id
-                 JOIN emp_role er ON rm.r_id = er.r_id
-        WHERE er.e_id = #{eId}
     </select>
 
 </mapper>

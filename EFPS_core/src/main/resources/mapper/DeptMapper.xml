@@ -65,17 +65,11 @@
         FROM dept
         <where>
             <if test="id != null">
-                AND id = #{id}
-            </if>
-            <if test="dTotal != null">
-                AND d_total = #{dTotal}
+                AND id LIKE concat('%',#{id},'%')
             </if>
             <if test="dName != null">
-                AND d_name = #{dName}
+                AND d_name LIKE concat('%',#{dName},'%')
             </if>
-            <if test="dAvatarpath != null">
-                AND d_avatarpath = #{dAvatarpath}
-           </if>
         </where>
     </select>
     <select id="getDept" resultType="com.rs.domain.Dept">

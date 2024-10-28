@@ -29,7 +29,7 @@ public class DynamicRoutesController {
         return dynamicRoutesService.getPages(page, pageSize);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @ApiOperation("按条件获取路由列表")
     public ResultResponse getRoutes(@RequestBody DynamicRoutes route) {
         return dynamicRoutesService.getRoutes(route);
@@ -43,7 +43,7 @@ public class DynamicRoutesController {
 
     @DeleteMapping
     @ApiOperation("删除路由项")
-    public ResultResponse deleteRoutes(@RequestBody Integer[] ids) {
+    public ResultResponse deleteRoutes(@RequestParam Integer[] ids) {
         return dynamicRoutesService.deleteRoutes(ids);
     }
 

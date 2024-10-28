@@ -22,8 +22,6 @@ public interface EmpService extends IService<Emp> {
 
     ResultResponse deleteEmp(Integer id);
 
-    ResultResponse getEmp(Emp emp);
-
     ResultResponse getEmps(Emp emp);
 
     ResultResponse page(Integer page,Integer pageSize);

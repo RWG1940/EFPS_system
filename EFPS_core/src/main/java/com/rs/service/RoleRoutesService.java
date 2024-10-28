@@ -2,6 +2,9 @@ package com.rs.service;
 
 import com.rs.domain.RoleRoutes;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rs.exception.pojo.vo.ResultResponse;
+
+import java.util.List;
 
 /**
 * @author RWG
@@ -9,5 +12,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-10-09 17:42:55
 */
 public interface RoleRoutesService extends IService<RoleRoutes> {
+
+
+    ResultResponse getAllRoleRoutes(Integer rId);
+
+    ResultResponse addRoleRoutes(Integer rId, List<Integer> roIds);
+
+    ResultResponse deleteRoleRoutes(Integer id);
 
 }

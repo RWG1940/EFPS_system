@@ -17,6 +17,7 @@ public interface RoleRoutesMapper extends BaseMapper<RoleRoutes> {
 
     List<Integer> getRouteIdsByRoleId(Integer getrId);
 
+    int insertBatch(List<RoleRoutes> roleRoutesList);
 }
 
 

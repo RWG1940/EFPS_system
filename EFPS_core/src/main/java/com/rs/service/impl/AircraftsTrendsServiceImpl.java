@@ -29,10 +29,10 @@ public class AircraftsTrendsServiceImpl extends ServiceImpl<AircraftsTrendsMappe
   @Override
   public ResultResponse deleteBatchAircraftsTrends(List<Integer> ids) {
     if (aircraftsTrendsMapper.deleteAircraftsTrends(ids) > 0) {
-      throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, "删除失败");
+      return ResultResponse.success();
     } else {
-      return ResultResponse.error("删除失败");
-    }
+      throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, "删除失败");
+     }
   }
 
   @Override

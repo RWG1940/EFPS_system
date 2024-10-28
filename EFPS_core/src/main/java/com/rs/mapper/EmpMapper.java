@@ -32,12 +32,13 @@ public interface EmpMapper extends BaseMapper<Emp> {
     @Delete("DELETE FROM emp WHERE id = #{id}")
     int deleteEmp(@Param("id") Integer id);
 
-    List<Emp> getEmps(Emp emp);
 
    // 批量删除员工
     int deleteEmps(List<Integer> ids);
 
     List<String> selectMenuById(Integer id);
+
+    List<Emp> getEmps(Emp emp);
 }
 
 

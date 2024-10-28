@@ -1,9 +1,9 @@
 package com.rs.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rs.domain.DynamicRoutes;
-import com.rs.domain.Emp;
-import com.rs.domain.Role;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.rs.domain.*;
 import com.rs.exception.pojo.BizException;
 import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.exception.pojo.vo.ResultResponse;
@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,12 +39,22 @@ public class DynamicRoutesServiceImpl extends ServiceImpl<DynamicRoutesMapper, D
 
   @Override
   public ResultResponse getPages(Integer page, Integer pageSize) {
-    return null;
+
+    // 启动分页
+    PageHelper.startPage(page, pageSize);
+    List<DynamicRoutes> dynamicRoutes = dynamicRoutesMapper.getAllRoutes();
+    if (dynamicRoutes == null) {
+      throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, "获取数据失败");
+    }
+    Page<DynamicRoutes> p = (Page<DynamicRoutes>) dynamicRoutes;
+
+    return ResultResponse.success(new PageBean(p.getTotal(), p.getResult()));
   }
 
   @Override
   public ResultResponse getRoutes(DynamicRoutes route) {
-    return null;
+    return ResultResponse.success(dynamicRoutesMapper.getRoutes(route));
+
   }
 
   @Override
@@ -92,16 +103,32 @@ public class DynamicRoutesServiceImpl extends ServiceImpl<DynamicRoutesMapper, D
 
   @Override
   public ResultResponse deleteRoutes(Integer[] ids) {
-    return null;
+    if(dynamicRoutesMapper.deleteBatchIds(Arrays.asList(ids)) == 0){
+      throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, "删除失败");
+    }else{
+      return ResultResponse.success();
+    }
   }
 
   @Override
   public ResultResponse addRoutes(DynamicRoutes route) {
-    return null;
+    // 获取当前操作用户的id
+    UserDetails userDetails =
+        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    route.setCreateuserid(empMapper.getEmp(new Emp(userDetails.getUsername())).getId());
+    if(dynamicRoutesMapper.insertRoute(route) == 0){
+      throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, "添加失败");
+    }else{
+      return ResultResponse.success();
+    }
   }
 
   @Override
   public ResultResponse updateRoutes(DynamicRoutes route) {
-    return null;
+    if(dynamicRoutesMapper.updateRoute(route) == 0){
+      throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, "更新失败");
+    }else{
+      return ResultResponse.success();
+    }
   }
 }

@@ -16,6 +16,14 @@ import java.util.List;
 public interface DynamicRoutesMapper extends BaseMapper<DynamicRoutes> {
 
     List<DynamicRoutes> getRoutesByIds(List<Integer> routeIds);
+
+    List<DynamicRoutes> getAllRoutes();
+
+    List<DynamicRoutes> getRoutes(DynamicRoutes route);
+
+    int insertRoute(DynamicRoutes route);
+
+    int updateRoute(DynamicRoutes route);
 }
 
 

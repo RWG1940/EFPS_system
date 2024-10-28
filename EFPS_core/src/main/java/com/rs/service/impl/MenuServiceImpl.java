@@ -1,12 +1,18 @@
 package com.rs.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.rs.domain.Menu;
+import com.rs.domain.PageBean;
+import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.MenuService;
 import com.rs.mapper.MenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +28,77 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
     @Override
     public List<String> selectMenuById(int i) {
         return menuMapper.selectMenuById(i);
+    }
+
+    @Override
+    public ResultResponse getPages(Integer page, Integer pageSize) {
+        // 启动分页
+        PageHelper.startPage(page, pageSize);
+        List<Menu> menuList = menuMapper.selectList(null);
+        Page<Menu> p = (Page<Menu>) menuList;
+        return ResultResponse.success(new PageBean(p.getTotal(), p.getResult()));
+
+    }
+
+    @Override
+    public ResultResponse getPermissions(Menu menu) {
+        if (menu.getmName() == null && menu.getmSign() == null && menu.getmUrl() == null && menu.getmId() == null) {
+            return ResultResponse.error("查询参数错误");
+        }
+        QueryWrapper<Menu> q = new QueryWrapper<>();
+        if (menu.getmName() != null) {
+            q.eq("m_name", menu.getmName());
+        }
+        if (menu.getmSign() != null) {
+            q.eq("m_sign", menu.getmSign());
+        }
+        if (menu.getmUrl() != null) {
+            q.eq("m_url", menu.getmUrl());
+        }
+        if (menu.getmId() != null) {
+            q.eq("m_id", menu.getmId());
+        }
+        q.orderByDesc("m_id");
+        List<Menu> result = menuMapper.selectList(q);
+        return ResultResponse.success(result);
+    }
+
+    @Override
+    public ResultResponse getAllPermissions() {
+        return ResultResponse.success(menuMapper.selectList(null));
+    }
+
+    @Override
+    public ResultResponse deletePermissions(Integer[] ids) {
+        if (ids == null){
+            return ResultResponse.error("参数错误");
+        }
+        if (menuMapper.deleteBatchIds(Arrays.asList(ids)) == 0){
+            return ResultResponse.error("删除失败");
+        }
+        return ResultResponse.success();
+    }
+
+    @Override
+    public ResultResponse addPermissions(Menu menu) {
+        if (menu == null){
+            return ResultResponse.error("参数错误");
+        }
+        if (menuMapper.insert(menu) == 0){
+            return ResultResponse.error("添加失败");
+        }
+        return ResultResponse.success();
+    }
+
+    @Override
+    public ResultResponse updatePermissions(Menu menu) {
+        if (menu == null){
+            return ResultResponse.error("参数错误");
+        }
+        if (menuMapper.updateById(menu) == 0){
+            return ResultResponse.error("更新失败");
+        }
+        return ResultResponse.success();
     }
 }
 

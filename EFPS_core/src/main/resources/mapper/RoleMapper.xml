@@ -16,4 +16,7 @@
     <select id="findRoleByEmpId" resultType="com.rs.domain.Role">
         select * from role where r_id in (select r_id from emp_role where e_id = #{empId})
     </select>
+    <select id="getAllRoles" resultType="com.rs.domain.Role">
+        select * from role
+    </select>
 </mapper>
