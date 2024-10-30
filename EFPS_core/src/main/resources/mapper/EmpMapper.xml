@@ -141,13 +141,7 @@
     </select>
 
 
-    <select id="selectMenuById" resultType="java.lang.String">
-        SELECT m_sign
-        FROM menu m
-                 JOIN role_menu rm ON m.m_id = rm.m_id
-                 JOIN emp_role er ON rm.r_id = er.r_id
-        WHERE er.e_id = #{eId}
-    </select>
+
     <select id="getEmps" resultType="com.rs.domain.Emp">
         SELECT
         <include refid="Base_Column_List"/>

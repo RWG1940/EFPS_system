@@ -42,25 +42,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
 
     @Override
     public ResultResponse getPermissions(Menu menu) {
-        if (menu.getmName() == null && menu.getmSign() == null && menu.getmUrl() == null && menu.getmId() == null) {
-            return ResultResponse.error("查询参数错误");
-        }
-        QueryWrapper<Menu> q = new QueryWrapper<>();
-        if (menu.getmName() != null) {
-            q.eq("m_name", menu.getmName());
-        }
-        if (menu.getmSign() != null) {
-            q.eq("m_sign", menu.getmSign());
-        }
-        if (menu.getmUrl() != null) {
-            q.eq("m_url", menu.getmUrl());
-        }
-        if (menu.getmId() != null) {
-            q.eq("m_id", menu.getmId());
-        }
-        q.orderByDesc("m_id");
-        List<Menu> result = menuMapper.selectList(q);
-        return ResultResponse.success(result);
+        return ResultResponse.success(menuMapper.searchList(menu));
     }
 
     @Override

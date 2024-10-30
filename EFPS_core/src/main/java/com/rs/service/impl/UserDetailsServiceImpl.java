@@ -5,6 +5,7 @@ import com.rs.domain.Emp;
 import com.rs.domain.LoginUserDetail;
 import com.rs.exception.pojo.BizException;
 import com.rs.mapper.EmpMapper;
+import com.rs.mapper.EmpMenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+  @Autowired private EmpMenuMapper empMenuMapper;
   @Autowired private EmpMapper empMapper;
 
   @Override
@@ -31,8 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       throw new BizException("不存在该用户: " + username);
     }
     // 赋权
-    List<String> roles = empMapper.selectMenuById(emp.getId());
-
+    List<String> roles = empMenuMapper.selectRoleList(emp.getId());
     return new LoginUserDetail(emp, roles);
   }
 }

@@ -36,7 +36,6 @@ public interface EmpMapper extends BaseMapper<Emp> {
    // 批量删除员工
     int deleteEmps(List<Integer> ids);
 
-    List<String> selectMenuById(Integer id);
 
     List<Emp> getEmps(Emp emp);
 }

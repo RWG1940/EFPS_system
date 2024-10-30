@@ -5,10 +5,10 @@
 <mapper namespace="com.rs.mapper.MenuMapper">
 
     <resultMap id="BaseResultMap" type="com.rs.domain.Menu">
-            <id property="mId" column="m_id" jdbcType="INTEGER"/>
-            <result property="mUrl" column="m_url" jdbcType="VARCHAR"/>
-            <result property="mName" column="m_name" jdbcType="VARCHAR"/>
-            <result property="mSign" column="m_sign" jdbcType="VARCHAR"/>
+        <id property="mId" column="m_id" jdbcType="INTEGER"/>
+        <result property="mUrl" column="m_url" jdbcType="VARCHAR"/>
+        <result property="mName" column="m_name" jdbcType="VARCHAR"/>
+        <result property="mSign" column="m_sign" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -20,5 +20,23 @@
         FROM menu m
                  JOIN role_menu rm ON m.m_id = rm.m_id
         WHERE rm.r_id = #{rId};
+    </select>
+    <select id="searchList" resultType="com.rs.domain.Menu">
+
+        select * from menu
+        <where>
+            <if test="mName!=null and mName!=''">
+                and m_name like concat('%',#{mName},'%')
+            </if>
+            <if test="mSign!=null and mSign!=''">
+                and m_sign like concat('%',#{mSign},'%')
+            </if>
+            <if test="mUrl!=null and mUrl!=''">
+                and m_url like concat('%',#{mUrl},'%')
+            </if>
+            <if test="mId!=null and mName!=''">
+                and m_id like concat('%',#{mId},'%')
+            </if>
+        </where>
     </select>
 </mapper>
