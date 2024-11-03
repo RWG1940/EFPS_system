@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,7 @@ public class UploadController {
 //
 //        return Result.success();
 //    }
+    @PreAuthorize("hasAuthority('emp')")
     @PostMapping("/upload")
     @ApiOperation("上传")
     public ResultResponse upload(@RequestParam("file") MultipartFile image) throws Exception {

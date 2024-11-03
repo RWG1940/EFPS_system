@@ -29,14 +29,14 @@ public class EmpController {
     @Autowired
     private EmpService empService;
 
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping
     @ApiOperation("获取所有员工")
     public ResultResponse getAllEmps() {
         return empService.getAllEmps();
     }
 
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/pages")
     @ApiOperation("获取分页数据")
     public ResultResponse getPages(@RequestParam Integer page,
@@ -44,7 +44,7 @@ public class EmpController {
         return empService.page(page,pageSize);
     }
 
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping("/search")
     @ApiOperation("获取指定字段的员工")
     public ResultResponse getEmps(@RequestBody EmpRoleDeptDTO empRoleDeptDTO) {
@@ -52,7 +52,7 @@ public class EmpController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @ApiOperation("创建新员工")
     public ResultResponse createEmp(@RequestBody EmpRoleDeptDTO empRoleDeptDTO) {
         return empService.createEmp(empRoleDeptDTO);
@@ -66,14 +66,14 @@ public class EmpController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @ApiOperation("删除指定 ID 的员工")
     public ResultResponse deleteEmp(@PathVariable Integer id) {
         return empService.deleteEmp(id);
     }
 
     @DeleteMapping("/batch")
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @ApiOperation("删除员工合集")
     public ResultResponse deleteEmps(@RequestParam List<Integer> ids) {
         return empService.deleteEmps(ids);

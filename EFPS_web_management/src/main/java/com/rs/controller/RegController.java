@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequestMapping("/reg")
 @Api(tags = "注册控制器")
+
 public class RegController {
     @Autowired
     private EmpService empService;

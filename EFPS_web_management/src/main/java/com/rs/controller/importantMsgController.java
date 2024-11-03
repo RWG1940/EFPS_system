@@ -52,7 +52,7 @@ public class importantMsgController {
 
     //添加消息
     @PostMapping
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @ApiOperation("添加消息")
     public ResultResponse addImportantMsgs(@RequestBody ImportantMsg importantMsg) {
         log.info(importantMsg.toString());
@@ -61,7 +61,7 @@ public class importantMsgController {
 
     //更新消息
     @PutMapping
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @ApiOperation("更新消息")
     public ResultResponse updateImportantMsgs(@RequestBody ImportantMsg importantMsg) {
         return importantMsgService.updateImportantMsgs(importantMsg);
@@ -70,7 +70,7 @@ public class importantMsgController {
 
     //批量删除消息
     @DeleteMapping
-    @PreAuthorize("hasAuthority('emp')")
+    @PreAuthorize("hasAuthority('admin')")
     @ApiOperation("批量删除消息")
     public ResultResponse deleteBatchImportantMsgs(@RequestParam List<Integer> ids) {
         return importantMsgService.deleteBatchImportantMsgs(ids);

@@ -14,6 +14,9 @@ spring:
     port: ${efps.redis.port}
     password: ${efps.redis.password}
     database: ${efps.redis.database}
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

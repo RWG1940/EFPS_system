@@ -22,6 +22,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/aircraftsTrends")
 @Api(tags = "航班动态控制器")
+@PreAuthorize("hasAuthority('emp')")
 public class aircraftsTrendsController {
 
     @Autowired

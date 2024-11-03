@@ -193,6 +193,10 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
             Authentication authenticate = authenticationManager.authenticate(authentication);
             // 获取认证成功后的用户信息
             LoginUserDetail loginUserDetail = (LoginUserDetail) authenticate.getPrincipal();
+            // 检查是否被禁用
+            if (loginUserDetail.getEmp().geteIsenabled() == 0) {
+                return ResultResponse.error("该用户已被禁用，请联系管理员");
+            }
             // 再redis中设置该id的在线状态
             redisTemplate.opsForValue().set(loginUserDetail.getEmp().geteUsername(), 1);
             return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
@@ -239,13 +243,16 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         log.info("账户："+userDetails.getUsername()+"，通过token登录");
         // 如果用户存在，返回最新的用户信息
         if (userDetails != null) {
+            if (empMapper.getEmp(new Emp(userDetails.getUsername())).geteIsenabled() == 0){
+                throw new BizException(ExceptionEnum.UNAUTHORIZED,"该用户已被禁用，请联系管理员");
+            }
             Role role = roleMapper.findRoleByEmpId(empMapper.getEmp(new Emp(userDetails.getUsername())).getId());
             Dept dept = deptMapper.getDept(new Dept(empMapper.getEmp(new Emp(userDetails.getUsername())).geteDeptid()));
             // 在redis中设置该id的在线状态为1
             redisTemplate.opsForValue().set(empMapper.getEmp(new Emp(userDetails.getUsername())).geteUsername(), 1);
             return ResultResponse.success(new EmpRoleDeptDTO(empMapper.getEmp(new Emp(userDetails.getUsername())), role, dept,1));
         } else {
-            throw new BizException(ExceptionEnum.UNAUTHORIZED,"授权失败");
+            throw new BizException(ExceptionEnum.UNAUTHORIZED,"授权失败，该用户不存在");
         }
     }
 
