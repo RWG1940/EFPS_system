@@ -18,8 +18,8 @@
     <select id="selectMenuById" resultType="java.lang.String">
         SELECT m.m_sign
         FROM menu m
-                 JOIN role_menu rm ON m.m_id = rm.m_id
-        WHERE rm.r_id = #{rId};
+                 JOIN emp_menu em ON m.m_id = em.m_id
+        WHERE em.e_id = #{eId};
     </select>
     <select id="searchList" resultType="com.rs.domain.Menu">
 

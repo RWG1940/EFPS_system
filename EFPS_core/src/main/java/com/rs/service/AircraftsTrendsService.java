@@ -11,7 +11,7 @@ import java.util.List;
 * @description 针对表【aircrafts_trends】的数据库操作Service
 * @createDate 2024-09-03 14:46:45
 */
-public interface AircraftsTrendsService extends IService<AircraftsTrends> {
+public interface AircraftsTrendsService extends IService<AircraftsTrends>  {
 
     ResultResponse deleteBatchAircraftsTrends(List<Integer> ids);
 

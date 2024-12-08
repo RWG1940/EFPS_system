@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rs.domain.*;
-import com.rs.domain.vo.EmpRoleDeptDTO;
+import com.rs.domain.dto.EmpRoleDeptDTO;
 import com.rs.exception.pojo.BizException;
 import com.rs.exception.pojo.ExceptionEnum;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.mapper.DeptMapper;
 import com.rs.mapper.RoleMapper;
+import com.rs.service.EmpMenuService;
 import com.rs.service.EmpRoleService;
 import com.rs.service.EmpService;
 import com.rs.mapper.EmpMapper;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import com.rs.utils.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,6 +55,8 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     private EmpRoleService empRoleService;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private EmpMenuService empMenuService;
     @Autowired
     private RoleMapper roleMapper;
     @Autowired
@@ -184,10 +188,10 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     }
 
     @Override
-    public ResultResponse login(Emp emp) {
-        log.info("账户："+emp.geteUsername()+"，通过账号密码登录");
+    public ResultResponse login(EmpRoleDeptDTO erdd) {
+
         // 创建认证对象
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(emp.geteUsername(), emp.getePassword());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(erdd.getEmp().geteUsername(), erdd.getEmp().getePassword());
         // 执行认证
         try {
             Authentication authenticate = authenticationManager.authenticate(authentication);
@@ -199,7 +203,14 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
             }
             // 再redis中设置该id的在线状态
             redisTemplate.opsForValue().set(loginUserDetail.getEmp().geteUsername(), 1);
-            return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
+            if (erdd.isRememberMe()){
+                log.info("账户："+erdd.getEmp().geteUsername()+"，通过账号密码登录，记住密码7天");
+                return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), (long) (60 * 60 * 24 * 7 * 1000)));
+            }else{
+                log.info("账户："+erdd.getEmp().geteUsername()+"，通过账号密码登录");
+                return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
+            }
+
         } catch (Exception e) {
             throw new BizException(ExceptionEnum.UNAUTHORIZED,"用户名或密码错误");
         }
@@ -213,6 +224,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         }
         // 加密密码
         emp.setePassword(passwordEncoder.encode(emp.getePassword()));
+        // 设置临时部门
         emp.seteDeptid(49);
         // 插入数据
         if (empMapper.createEmp(emp) != 1) {
@@ -226,13 +238,17 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         // 设置创建时间和更新时间
         new_e.seteUpdatetime(timeUtil.getCurrentTimestamp());
         new_e.seteCreatetime(timeUtil.getCurrentTimestamp());
+        // 设置启用该用户
+        new_e.seteIsenabled(1);
         empMapper.updateEmp(new_e);
         // 赋予初始角色 3普通用户
         empRoleService.insertEmpRole(new_e.getId(), 3);
+        // 赋予基本权限 emp
+        empMenuService.addEmpMenu( new_e.getId(), Collections.singletonList(1));
         // 查找普通用户对应menu表中的权限id再查找普通用户的权限id对应的权限
-        List<String> roles = menuService.selectMenuById(3);
+        List<String> menus = menuService.selectMenuById(new_e.getId());
         // 构建LoginUserDetail
-        LoginUserDetail loginUserDetail = new LoginUserDetail(emp, roles);
+        LoginUserDetail loginUserDetail = new LoginUserDetail(emp, menus);
         return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
     }
 

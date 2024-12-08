@@ -1,4 +1,4 @@
-package com.rs.domain.vo;
+package com.rs.domain.dto;
 
 import com.rs.domain.Dept;
 import com.rs.domain.Emp;
@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
  * @Author: RWG
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value = "用户信息和角色信息组合实体")
 public class EmpRoleDeptDTO {
     @ApiModelProperty(value = "员工信息")
@@ -28,10 +28,13 @@ public class EmpRoleDeptDTO {
     private Dept dept;
     @ApiModelProperty(value = "在线状态")
     private int isOnline;
-    public EmpRoleDeptDTO(Emp emp, Role role,Dept dept) {
-        this.emp = emp;
-        this.role = role;
+    @ApiModelProperty(value = "记住密码")
+    private boolean rememberMe;
+
+    public EmpRoleDeptDTO(Emp e, Role roleByEmpId, Dept dept, int isOnline) {
+        this.emp = e;
+        this.role = roleByEmpId;
         this.dept = dept;
-        this.isOnline = 0;
+        this.isOnline = isOnline;
     }
 }

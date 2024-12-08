@@ -2,7 +2,7 @@ package com.rs.service;
 
 import com.rs.domain.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rs.domain.vo.EmpRoleDeptDTO;
+import com.rs.domain.dto.EmpRoleDeptDTO;
 import com.rs.exception.pojo.vo.ResultResponse;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public interface EmpService extends IService<Emp> {
 
     ResultResponse deleteEmps(List<Integer> ids);
 
-    ResultResponse login(Emp emp);
+    ResultResponse login(EmpRoleDeptDTO erdd);
 
     ResultResponse register(Emp emp);
 

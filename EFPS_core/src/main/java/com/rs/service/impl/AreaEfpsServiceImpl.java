@@ -48,6 +48,7 @@ public class AreaEfpsServiceImpl extends ServiceImpl<AreaEfpsMapper, AreaEfps>
   @Override
   public ResultResponse addAreaEfps(AreaEfps areaEfps) {
     areaEfps.setCreatetime(new java.util.Date());
+    areaEfps.setUpdatetime(new java.util.Date());
     if (areaEfpsMapper.getAreaEfps(new AreaEfps(areaEfps.getA1())) != null) {
       return ResultResponse.error("该进程单已存在");
     }

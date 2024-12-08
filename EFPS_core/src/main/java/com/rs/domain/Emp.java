@@ -45,6 +45,7 @@ public class Emp implements Serializable {
 
     private Integer eDeptid;
 
+
     public Emp(String eUsername) {
         this.eUsername = eUsername;
 

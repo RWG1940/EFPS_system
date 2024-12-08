@@ -2,6 +2,7 @@ package com.rs.service;
 
 import com.rs.domain.SysMsg;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rs.exception.pojo.vo.ResultResponse;
 
 /**
 * @author RWG
@@ -10,4 +11,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysMsgService extends IService<SysMsg> {
 
+    ResultResponse createSysMsg(SysMsg sysMsg);
+
+    ResultResponse deleteSysMsg(Integer[] ids);
+
+    ResultResponse getAllSysMsgs();
+
+    ResultResponse updateSysMsg(SysMsg sysMsg);
 }

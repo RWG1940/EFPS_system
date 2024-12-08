@@ -31,6 +31,11 @@ public class EmpSys implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+    public EmpSys(Integer eId, Integer insertedId) {
+        this.eId = eId;
+        this.sysMsgId = insertedId;
+    }
+
     /**
      * 
      */

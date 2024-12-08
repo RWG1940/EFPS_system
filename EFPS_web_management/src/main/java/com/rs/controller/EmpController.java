@@ -1,7 +1,6 @@
 package com.rs.controller;
 
-import com.rs.domain.Emp;
-import com.rs.domain.vo.EmpRoleDeptDTO;
+import com.rs.domain.dto.EmpRoleDeptDTO;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.EmpService;
 import io.swagger.annotations.Api;
