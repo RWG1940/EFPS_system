@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.FlightRunwayMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.FlightRunway">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="flightId" column="flight_id" jdbcType="BIGINT"/>
+            <result property="runwayId" column="runway_id" jdbcType="BIGINT"/>
+            <result property="assignedTime" column="assigned_time" jdbcType="TIMESTAMP"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,flight_id,runway_id,
+        assigned_time,created_at,updated_at,
+        remarks
+    </sql>
+</mapper>

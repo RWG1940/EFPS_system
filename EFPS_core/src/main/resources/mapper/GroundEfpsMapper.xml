@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.GroundEfpsMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.GroundEfps">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="a1" column="a1" jdbcType="VARCHAR"/>
+            <result property="b1" column="b1" jdbcType="VARCHAR"/>
+            <result property="c1" column="c1" jdbcType="VARCHAR"/>
+            <result property="d1" column="d1" jdbcType="VARCHAR"/>
+            <result property="e1" column="e1" jdbcType="VARCHAR"/>
+            <result property="fg1" column="fg1" jdbcType="VARCHAR"/>
+            <result property="h1" column="h1" jdbcType="VARCHAR"/>
+            <result property="b2" column="b2" jdbcType="VARCHAR"/>
+            <result property="c2" column="c2" jdbcType="VARCHAR"/>
+            <result property="b4" column="b4" jdbcType="VARCHAR"/>
+            <result property="c3" column="c3" jdbcType="VARCHAR"/>
+            <result property="de3" column="de3" jdbcType="VARCHAR"/>
+            <result property="c4" column="c4" jdbcType="VARCHAR"/>
+            <result property="e4" column="e4" jdbcType="VARCHAR"/>
+            <result property="m" column="m" jdbcType="VARCHAR"/>
+            <result property="e" column="e" jdbcType="VARCHAR"/>
+            <result property="a" column="a" jdbcType="VARCHAR"/>
+            <result property="i" column="i" jdbcType="VARCHAR"/>
+            <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,status,type,
+        a1,b1,c1,
+        d1,e1,fg1,
+        h1,b2,c2,
+        b4,c3,de3,
+        c4,e4,m,
+        e,a,i,
+        createTime,updateTime
+    </sql>
+</mapper>

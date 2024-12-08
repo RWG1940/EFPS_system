@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rs.mapper.FlightInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.rs.domain.FlightInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="flightNumber" column="flight_number" jdbcType="VARCHAR"/>
+            <result property="airline" column="airline" jdbcType="VARCHAR"/>
+            <result property="aircraftType" column="aircraft_type" jdbcType="VARCHAR"/>
+            <result property="departureAirport" column="departure_airport" jdbcType="VARCHAR"/>
+            <result property="arrivalAirport" column="arrival_airport" jdbcType="VARCHAR"/>
+            <result property="scheduledDepartureTime" column="scheduled_departure_time" jdbcType="TIMESTAMP"/>
+            <result property="scheduledArrivalTime" column="scheduled_arrival_time" jdbcType="TIMESTAMP"/>
+            <result property="actualDepartureTime" column="actual_departure_time" jdbcType="TIMESTAMP"/>
+            <result property="actualArrivalTime" column="actual_arrival_time" jdbcType="TIMESTAMP"/>
+            <result property="route" column="route" jdbcType="VARCHAR"/>
+            <result property="flightStatus" column="flight_status" jdbcType="TINYINT"/>
+            <result property="delayReason" column="delay_reason" jdbcType="VARCHAR"/>
+            <result property="altitude" column="altitude" jdbcType="INTEGER"/>
+            <result property="speed" column="speed" jdbcType="INTEGER"/>
+            <result property="position" column="position" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,flight_number,airline,
+        aircraft_type,departure_airport,arrival_airport,
+        scheduled_departure_time,scheduled_arrival_time,actual_departure_time,
+        actual_arrival_time,route,flight_status,
+        delay_reason,altitude,speed,
+        position,created_at,updated_at,
+        remarks
+    </sql>
+</mapper>
