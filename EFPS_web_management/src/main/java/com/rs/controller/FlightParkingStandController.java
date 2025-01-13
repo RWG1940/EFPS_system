@@ -17,6 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlightParkingStandController extends BaseController<FlightParkingStand, FlightParkingStandService> {
     @Autowired
     public FlightParkingStandController(FlightParkingStandService service){
-        super(service);
+        super(service, FlightParkingStand.class);
     }
 }

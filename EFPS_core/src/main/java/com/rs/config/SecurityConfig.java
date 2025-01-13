@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
@@ -44,17 +45,17 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/auto-login"),
                                 new AntPathRequestMatcher("/route"),
                                 new AntPathRequestMatcher("/favicon.ico"),
-                                new AntPathRequestMatcher("/doc.html")
-                                , new AntPathRequestMatcher("/webjars/**")
-                                , new AntPathRequestMatcher("/swagger-resources")
-                                , new AntPathRequestMatcher("/v3/api-docs")
-                                , new AntPathRequestMatcher("/swagger-ui/**")
-                                , new AntPathRequestMatcher("/swagger-ui.html")
-                                , new AntPathRequestMatcher("/v2/api-docs")
-                                , new AntPathRequestMatcher("/v3/api-docs/**")
-                                , new AntPathRequestMatcher("/webjars/springfox-swagger-ui/**")
-                                , new AntPathRequestMatcher("/swagger-resources/**")
-
+                                new AntPathRequestMatcher("/doc.html"),
+                                new AntPathRequestMatcher("/webjars/**"),
+                                new AntPathRequestMatcher("/swagger-resources"),
+                                new AntPathRequestMatcher("/v3/api-docs"),
+                                new AntPathRequestMatcher("/swagger-ui/**"),
+                                new AntPathRequestMatcher("/swagger-ui.html"),
+                                new AntPathRequestMatcher("/v2/api-docs"),
+                                new AntPathRequestMatcher("/v3/api-docs/**"),
+                                new AntPathRequestMatcher("/webjars/springfox-swagger-ui/**"),
+                                new AntPathRequestMatcher("/swagger-resources/**"),
+                                new AntPathRequestMatcher("/websocket/**")  // 放行 WebSocket 连接路径
                         ).permitAll() // 允许路径未认证访问
                         .anyRequest().authenticated())
                 .cors().and()

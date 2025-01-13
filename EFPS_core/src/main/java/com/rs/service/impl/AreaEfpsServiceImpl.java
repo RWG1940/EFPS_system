@@ -42,6 +42,7 @@ public class AreaEfpsServiceImpl extends ServiceImpl<AreaEfpsMapper, AreaEfps>
       throw new BizException(ExceptionEnum.NOT_FOUND, "没有找到任何进程单数据");
     }
     PageInfo<AreaEfps> pageInfo = new PageInfo<>(areaEfps);
+
     return ResultResponse.success(new PageBean(pageInfo.getTotal(), pageInfo.getList()));
   }
 

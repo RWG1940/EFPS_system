@@ -24,55 +24,6 @@ import java.util.List;
 public class FlightPlanServiceImpl extends ServiceImpl<FlightPlanMapper, FlightPlan>
     implements FlightPlanService{
 
-    @Autowired
-    private FlightPlanMapper flightPlanMapper;
-    @Override
-    public ResultResponse getPages(Integer page, Integer pageSize) {
-        IPage<FlightPlan> resultPage = new Page<>(page,pageSize);
-        flightPlanMapper.selectPage(resultPage,null);
-        return ResultResponse.success(resultPage);
-    }
-
-    @Override
-    public ResultResponse addFlightPlan(FlightPlan flightPlan) {
-        if (flightPlanMapper.insert(flightPlan)>0){
-            return ResultResponse.success();
-        }
-        return ResultResponse.error("添加失败");
-    }
-
-    @Override
-    public ResultResponse deleteFlightPlan(List<Integer> ids) {
-        if (flightPlanMapper.deleteBatchIds(ids)>0){
-            return ResultResponse.success();
-        }
-        return ResultResponse.error("删除失败");
-    }
-
-    @Override
-    public ResultResponse updateFlightPlan(FlightPlan flightPlan) {
-        if (flightPlanMapper.updateById(flightPlan)>0){
-            return ResultResponse.success();
-        }
-        return ResultResponse.error("更新失败");
-    }
-
-    @Override
-    public ResultResponse searchFlightPlan(FlightPlan flightPlan) {
-        QueryWrapper<FlightPlan> queryWrapper = new QueryWrapper<>();
-        for (Field field : FlightInfo.class.getDeclaredFields()) {
-            field.setAccessible(true);
-            try {
-                Object value = field.get(flightPlan);
-                if (value != null && !value.toString().isEmpty()) {
-                    queryWrapper.like(field.getName(), value);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return ResultResponse.success(flightPlanMapper.selectList(queryWrapper));
-    }
 }
 
 

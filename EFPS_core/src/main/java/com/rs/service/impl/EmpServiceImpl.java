@@ -17,6 +17,7 @@ import com.rs.service.EmpService;
 import com.rs.mapper.EmpMapper;
 import com.rs.service.MenuService;
 import com.rs.utils.JwtUtils;
+import com.rs.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -63,6 +64,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
     private DeptMapper deptMapper;
     @Autowired
     private RedisTemplate redisTemplate;
+
 
     @Override
     public ResultResponse getAllEmps() {
@@ -133,6 +135,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         if (empMapper.deleteEmp(id) == 0) {
             throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR,"删除用户失败");
         }
+
         return ResultResponse.success();
     }
 
@@ -176,6 +179,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         // 构建新的分页对象
         PageInfo<EmpRoleDeptDTO> resultPage = new PageInfo<>(empRoleDTOs);
         resultPage.setTotal(pageInfo.getTotal());
+
         return ResultResponse.success(new PageBean(resultPage.getTotal(), resultPage.getList()));
     }
 
@@ -249,6 +253,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         List<String> menus = menuService.selectMenuById(new_e.getId());
         // 构建LoginUserDetail
         LoginUserDetail loginUserDetail = new LoginUserDetail(emp, menus);
+
         return ResultResponse.success(JwtUtils.generateJwtFromJson(JSON.toJSONString(loginUserDetail), null));
     }
 
@@ -266,6 +271,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
             Dept dept = deptMapper.getDept(new Dept(empMapper.getEmp(new Emp(userDetails.getUsername())).geteDeptid()));
             // 在redis中设置该id的在线状态为1
             redisTemplate.opsForValue().set(empMapper.getEmp(new Emp(userDetails.getUsername())).geteUsername(), 1);
+            //WebSocketServer.getInstance().sendToAll(new WebSocketMessage(1, 1, "有人登录啦", empMapper.getEmp(new Emp(userDetails.getUsername())).geteId(), System.currentTimeMillis()));
             return ResultResponse.success(new EmpRoleDeptDTO(empMapper.getEmp(new Emp(userDetails.getUsername())), role, dept,1));
         } else {
             throw new BizException(ExceptionEnum.UNAUTHORIZED,"授权失败，该用户不存在");

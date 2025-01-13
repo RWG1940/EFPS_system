@@ -13,13 +13,4 @@ import java.util.List;
 */
 public interface FlightPlanService extends IService<FlightPlan> {
 
-    ResultResponse getPages(Integer page, Integer pageSize);
-
-    ResultResponse addFlightPlan(FlightPlan flightPlan);
-
-    ResultResponse deleteFlightPlan(List<Integer> ids);
-
-    ResultResponse updateFlightPlan(FlightPlan flightPlan);
-
-    ResultResponse searchFlightPlan(FlightPlan flightPlan);
 }

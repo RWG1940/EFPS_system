@@ -1,8 +1,10 @@
 package com.rs.controller;
 
 import com.rs.domain.TowerEfps;
+import com.rs.domain.WebSocketMessage;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.TowerEfpsService;
+import com.rs.websocket.WebSocketServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.List;
 @PreAuthorize("hasAuthority('admin') or hasAuthority('towerC')")
 public class TowerEfpsController {
     @Autowired private TowerEfpsService towerEfpsService;
+    @Autowired private WebSocketServer webSocketServer;
 
     // 获取所有进程单
     @GetMapping
@@ -39,19 +42,21 @@ public class TowerEfpsController {
     @PostMapping
     @ApiOperation("添加进程单")
     public ResultResponse addTowerEfps(@RequestBody TowerEfps towerEfps) {
-        log.info(towerEfps.toString());
+        webSocketServer.sendToAll(new WebSocketMessage(1, 1, "towerEfpsAdded", "sys", System.currentTimeMillis()));
         return towerEfpsService.addTowerEfps(towerEfps);
     }
     // 删除进程单
     @DeleteMapping
     @ApiOperation("删除进程单")
     public ResultResponse deleteTowerEfps(@RequestParam List<Integer> ids) {
+        webSocketServer.sendToAll(new WebSocketMessage(1, 1, "towerEfpsDeleted", "sys", System.currentTimeMillis()));
         return towerEfpsService.deleteTowerEfps(ids);
     }
     // 更新进程单
     @PutMapping
     @ApiOperation("更新进程单")
     public ResultResponse updateTowerEfps(@RequestBody TowerEfps towerEfps) {
+        webSocketServer.sendToAll(new WebSocketMessage(1, 1, "towerEfpsUpdated", "sys", System.currentTimeMillis()));
         return towerEfpsService.updateTowerEfps(towerEfps);
     }
     // 查询进程单

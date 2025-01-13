@@ -43,7 +43,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
+        // 放行 WebSocket 请求路径
+        if (uri.startsWith("/websocket/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         // 从请求头中获取 Authorization 参数
         String authHeader = request.getHeader("Authorization");
         // 检查 Authorization 头是否存在并以 "Bearer " 开头

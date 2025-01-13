@@ -70,7 +70,7 @@ public class DynamicRoutesServiceImpl extends ServiceImpl<DynamicRoutesMapper, D
       List<Integer> routeIds = roleRoutesMapper.getRouteIdsByRoleId(role.getrId());
       //System.out.println("该角色所拥有的路由:"+routeIds);
       List<DynamicRoutes> routes = dynamicRoutesMapper.getRoutesByIds(routeIds);
-      System.out.println(routes.toString());
+      //System.out.println(routes.toString());
       // 构建路由树
       List<DynamicRoutes> routeTree = buildRouteTree(routes, 0); // 顶级路由的 parentRouteId 为 0
       return ResultResponse.success(routeTree);

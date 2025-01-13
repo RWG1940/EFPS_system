@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GroundController extends BaseController<GroundEfps, GroundEfpsService> {
     @Autowired
     public GroundController(GroundEfpsService service){
-        super(service);
+        super(service,GroundEfps.class);
     }
+
 }

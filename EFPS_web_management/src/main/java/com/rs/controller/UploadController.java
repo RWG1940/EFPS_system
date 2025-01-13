@@ -37,9 +37,10 @@ public class UploadController {
 //
 //        return Result.success();
 //    }
-    @PreAuthorize("hasAuthority('emp')")
+
     @PostMapping("/upload")
     @ApiOperation("上传")
+
     public ResultResponse upload(@RequestParam("file") MultipartFile image) throws Exception {
         String url = yunOSS.upload(image);
         return ResultResponse.success(url);
