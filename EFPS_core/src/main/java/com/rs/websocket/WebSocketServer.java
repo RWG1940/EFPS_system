@@ -54,7 +54,15 @@ public class WebSocketServer {
   @OnMessage
   public void onMessage(String message) {
     log.info("收到消息：sid = {}, message = {}", sid, message);
-    sendToAll(new WebSocketMessage(1, 1, message, sid, System.currentTimeMillis()));
+    // 将message转成json对象
+
+    WebSocketMessage webSocketMessage = JSON.parseObject(message, WebSocketMessage.class);
+    if (webSocketMessage.getType() == 1) {
+      sendToAll(new WebSocketMessage(1, 1, message, sid, System.currentTimeMillis()));
+    }
+    if (webSocketMessage.getType() == 2){
+      sendToAll(new WebSocketMessage(2, 1, webSocketMessage.getMessage(), sid, System.currentTimeMillis()));
+    }
   }
 
   @OnError
