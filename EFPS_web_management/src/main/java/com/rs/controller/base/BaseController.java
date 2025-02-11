@@ -62,6 +62,7 @@ public class BaseController<T, S extends IService<T>> {
 
   @PutMapping
   public ResultResponse update(@RequestBody T entity) {
+    log.info("Update entity: {}", entity);
     boolean success = service.updateById(entity);
     String entityName = entityClass.getSimpleName();
     webSocketServer.sendToAll(new WebSocketMessage(1, 1, entityName+"Deleted", "sys", System.currentTimeMillis()));
@@ -71,15 +72,25 @@ public class BaseController<T, S extends IService<T>> {
   @PostMapping("/search")
   public ResultResponse search(@RequestBody T entity) {
     QueryWrapper<T> queryWrapper = new QueryWrapper<>();
+    log.info("Search entity: {}", entity);
 
     // 遍历实体类字段
     for (Field field : entity.getClass().getDeclaredFields()) {
       field.setAccessible(true);
       try {
+        // 排除 serialVersionUID 字段
+        if ("serialVersionUID".equals(field.getName())) {
+          continue;
+        }
+
         Object value = field.get(entity);
         if (value != null && !value.toString().isEmpty()) {
-          // 使用模糊匹配
-          queryWrapper.like(field.getName(), value);
+          // 获取数据库字段名，处理驼峰转换为下划线
+          String fieldName = field.getName();
+          String columnName = convertToUnderscore(fieldName);  // 将驼峰字段转换为下划线格式
+
+          // 添加模糊查询条件
+          queryWrapper.like(columnName, value);
         }
       } catch (IllegalAccessException e) {
         log.error("Field access error: ", e);
@@ -89,4 +100,22 @@ public class BaseController<T, S extends IService<T>> {
     List<T> result = service.list(queryWrapper);
     return result != null ? ResultResponse.success(result) : ResultResponse.error("查询失败");
   }
+
+  // 方法：将驼峰命名转换为下划线命名
+  private String convertToUnderscore(String camelCase) {
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < camelCase.length(); i++) {
+      char c = camelCase.charAt(i);
+      if (Character.isUpperCase(c)) {
+        if (i > 0) {
+          result.append('_');  // 添加下划线分隔符
+        }
+        result.append(Character.toLowerCase(c));  // 转换为小写字母
+      } else {
+        result.append(c);
+      }
+    }
+    return result.toString();
+  }
+
 }

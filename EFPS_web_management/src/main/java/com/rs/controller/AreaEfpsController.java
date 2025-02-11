@@ -64,7 +64,7 @@ public class AreaEfpsController {
   @PutMapping
   @ApiOperation("更新进程单")
   public ResultResponse updateAreaEfps(@RequestBody AreaEfps areaEfps) {
-    log.info("更新");
+    log.info("更新"+areaEfps.toString());
     webSocketServer.sendToAll(new WebSocketMessage(1, 1, "areaEfpsUpdated", "sys", System.currentTimeMillis()));
     return areaEfpsService.updateAreaEfps(areaEfps);
   }

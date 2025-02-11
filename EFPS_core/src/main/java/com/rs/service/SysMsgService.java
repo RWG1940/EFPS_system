@@ -18,4 +18,6 @@ public interface SysMsgService extends IService<SysMsg> {
     ResultResponse getAllSysMsgs();
 
     ResultResponse updateSysMsg(SysMsg sysMsg);
+
+    ResultResponse getPageData(Integer pageNum, Integer pageSize);
 }

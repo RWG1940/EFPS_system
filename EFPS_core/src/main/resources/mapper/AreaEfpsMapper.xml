@@ -16,7 +16,9 @@
         <result property="fg1" column="fg1" jdbcType="VARCHAR"/>
         <result property="h1" column="h1" jdbcType="VARCHAR"/>
         <result property="a2" column="a2" jdbcType="VARCHAR"/>
-        <result property="b2" column="b2" jdbcType="VARCHAR"/>
+        <result property="b21" column="b21" jdbcType="VARCHAR"/>
+        <result property="b22" column="b22" jdbcType="VARCHAR"/>
+        <result property="b23" column="b23" jdbcType="VARCHAR"/>
         <result property="c2" column="c2" jdbcType="VARCHAR"/>
         <result property="a31" column="a31" jdbcType="VARCHAR"/>
         <result property="a32" column="a32" jdbcType="VARCHAR"/>
@@ -45,7 +47,8 @@
         id,status,type,
         a1,b1,c1,
         d1,e1,fg1,
-        h1,a2,b2,
+        h1,a2,b21,
+        b22,b23,
         c2,a31,a32,
         a33,a34,a35,
         a36,b31,b32,
@@ -69,7 +72,9 @@
             <if test="a36 != null">a36,</if>
             <if test="a4 != null">a4,</if>
             <if test="b1 != null">b1,</if>
-            <if test="b2 != null">b2,</if>
+            <if test="b21 != null">b21,</if>
+            <if test="b22 != null">b22,</if>
+            <if test="b23 != null">b23,</if>
             <if test="b31 != null">b31,</if>
             <if test="b32 != null">b32,</if>
             <if test="b33 != null">b33,</if>
@@ -104,7 +109,9 @@
             <if test="a36 != null">#{a36},</if>
             <if test="a4 != null">#{a4},</if>
             <if test="b1 != null">#{b1},</if>
-            <if test="b2 != null">#{b2},</if>
+            <if test="b21 != null">#{b21},</if>
+            <if test="b22 != null">#{b22},</if>
+            <if test="b23 != null">#{b23},</if>
             <if test="b31 != null">#{b31},</if>
             <if test="b32 != null">#{b32},</if>
             <if test="b33 != null">#{b33},</if>
@@ -143,7 +150,9 @@
             <if test="a36 != null">a36=#{a36},</if>
             <if test="a4 != null">a4=#{a4},</if>
             <if test="b1 != null">b1=#{b1},</if>
-            <if test="b2 != null">b2=#{b2},</if>
+            <if test="b21 != null">b21=#{b21},</if>
+            <if test="b22 != null">b22=#{b22},</if>
+            <if test="b23 != null">b23=#{b23},</if>
             <if test="b31 != null">b31=#{b31},</if>
             <if test="b32 != null">b32=#{b32},</if>
             <if test="b33 != null">b33=#{b33},</if>
@@ -194,7 +203,9 @@
             <if test="a36 != null">and a36=#{a36}</if>
             <if test="a4 != null">and a4=#{a4}</if>
             <if test="b1 != null">and b1=#{b1}</if>
-            <if test="b2 != null">and b2=#{b2}</if>
+            <if test="b21 != null">and b21=#{b21}</if>
+            <if test="b22 != null">and b22=#{b22}</if>
+            <if test="b23 != null">and b23=#{b23}</if>
             <if test="b31 != null">and b31=#{b31}</if>
             <if test="b32 != null">and b32=#{b32}</if>
             <if test="b33 != null">and b33=#{b33}</if>

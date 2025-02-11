@@ -48,5 +48,11 @@ public class sysMsgController {
         return sysMsgService.updateSysMsg(sysMsg);
     }
 
+    // 获取分页数据
+    @GetMapping("/pages")
+    public ResultResponse getPageData(@RequestParam(defaultValue = "1") Integer pageNum,
+                                     @RequestParam(defaultValue = "10") Integer pageSize) {
+        return sysMsgService.getPageData(pageNum, pageSize);
+    }
 
 }

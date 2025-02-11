@@ -1,14 +1,12 @@
 package com.rs.controller;
 
 import com.rs.domain.AirspaceEvent;
-import com.rs.domain.AreaEfps;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.AirspaceEventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

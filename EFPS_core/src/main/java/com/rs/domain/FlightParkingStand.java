@@ -27,6 +27,7 @@ public class FlightParkingStand implements Serializable {
     /**
      * 停机位ID
      */
+    @TableField("parking_stand_id")
     private Long parkingStandId;
 
     /**
