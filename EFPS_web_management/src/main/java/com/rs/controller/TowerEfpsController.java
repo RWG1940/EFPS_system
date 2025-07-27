@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/towerEfps")
 @Api(tags = "塔台进程单控制器")
-@PreAuthorize("hasAuthority('admin') or hasAuthority('towerC')")
 public class TowerEfpsController {
     @Autowired private TowerEfpsService towerEfpsService;
     @Autowired private WebSocketServer webSocketServer;

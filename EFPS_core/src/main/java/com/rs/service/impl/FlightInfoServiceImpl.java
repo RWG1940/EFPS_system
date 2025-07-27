@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rs.domain.FlightInfo;
+import com.rs.domain.PageBean;
 import com.rs.exception.pojo.vo.ResultResponse;
 import com.rs.service.FlightInfoService;
 import com.rs.mapper.FlightInfoMapper;
@@ -96,7 +97,7 @@ public class FlightInfoServiceImpl extends ServiceImpl<FlightInfoMapper, FlightI
   public ResultResponse getPages(Integer page, Integer pageSize) {
     IPage<FlightInfo> resultPage = new Page<>(page,pageSize);
     flightInfoMapper.selectPage(resultPage,null);
-    return ResultResponse.success(resultPage);
+    return ResultResponse.success(new PageBean(resultPage.getTotal(),resultPage.getRecords()));
   }
 
 }

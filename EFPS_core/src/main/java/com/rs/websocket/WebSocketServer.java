@@ -73,14 +73,23 @@ public class WebSocketServer {
 
   public void sendToAll(WebSocketMessage message) {
     onlineSessionClientMap.forEach(
-        (onlineSid, toSession) -> {
-          if (toSession.isOpen()) {
-            String messageJson = JSON.toJSONString(message);
-            toSession.getAsyncRemote().sendText(messageJson);
-            log.info("群发消息：toSid = {}, message = {}", onlineSid, messageJson);
-          }
-        });
+            (onlineSid, toSession) -> {
+              try {
+                if (toSession.isOpen()) {
+                  String messageJson = JSON.toJSONString(message);
+                  System.out.println("将群发:" + messageJson);
+                  toSession.getAsyncRemote().sendText(messageJson);  // 异步发送消息
+                  log.info("群发消息：toSid = {}, message = {}", onlineSid, messageJson);
+                } else {
+                  log.warn("WebSocket连接已关闭，无法发送消息：sid = {}", onlineSid);
+                }
+              } catch (Exception e) {
+                log.error("发送消息失败：toSid = {}, 错误信息 = {}", onlineSid, e.getMessage());
+                e.printStackTrace();
+              }
+            });
   }
+
 
   private void sendToOne(String toSid, WebSocketMessage message) {
     Session toSession = onlineSessionClientMap.get(toSid);

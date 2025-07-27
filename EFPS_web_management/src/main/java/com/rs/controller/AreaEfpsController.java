@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/areaEfps")
 @Api(tags = "区域进程单控制器")
-@PreAuthorize("hasAuthority('admin') or hasAuthority('areaC')")
 public class AreaEfpsController {
 
   @Autowired

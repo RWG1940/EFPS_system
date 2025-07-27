@@ -81,7 +81,7 @@ public class SysMsgServiceImpl extends ServiceImpl<SysMsgMapper, SysMsg> impleme
 
     List<SysMsg> sysMsgs = sysMsgMapper.selectBatchIds(msgIds);
     if (sysMsgs.isEmpty()) {
-      return ResultResponse.error("获取失败");
+      return ResultResponse.success("没有消息");
     }
 
     return ResultResponse.success(sysMsgs);
